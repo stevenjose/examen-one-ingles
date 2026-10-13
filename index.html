@@ -1,60 +1,94 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>English Test: Complete Vocabulary</title>
+    <title>English Spelling Game</title>
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f6f7;
+            font-family: 'Comic Sans MS', 'Segoe UI', Tahoma, sans-serif;
+            background-color: #f0f8ff;
             color: #2c3e50;
-            line-height: 1.6;
+            text-align: center;
             padding: 20px;
-            max-width: 800px;
-            margin: 0 auto;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
         }
         h1 {
-            text-align: center;
             color: #fff;
-            background-color: #3498db;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            background-color: #9b59b6;
+            padding: 15px 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 0px #8e44ad;
+            margin-bottom: 10px;
         }
-        .subtitle {
-            text-align: center;
-            color: #7f8c8d;
-            font-size: 1.1em;
-            margin-bottom: 30px;
-        }
-        .question-card {
-            background: white;
-            padding: 20px;
+        .progress-container {
+            width: 100%;
+            max-width: 500px;
+            background-color: #ddd;
+            border-radius: 10px;
             margin-bottom: 20px;
-            border-radius: 12px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            border-left: 6px solid #f39c12;
+            height: 15px;
+            overflow: hidden;
         }
-        .question-category {
-            font-size: 0.85em;
-            text-transform: uppercase;
-            color: #e67e22;
+        .progress-bar {
+            height: 100%;
+            background-color: #2ecc71;
+            width: 0%;
+            transition: width 0.3s;
+        }
+        .screen {
+            display: none;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+            max-width: 500px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .active {
+            display: block;
+            animation: fadeIn 0.4s;
+        }
+        .category-badge {
+            display: inline-block;
+            background-color: #f39c12;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
             font-weight: bold;
-            margin-bottom: 8px;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+        .gif-container img {
+            width: 100%;
+            max-height: 180px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
         .question-title {
             font-weight: bold;
-            font-size: 1.15em;
-            margin-bottom: 15px;
+            font-size: 1.4em;
+            margin-bottom: 20px;
+            color: #34495e;
         }
         input[type="text"] {
             width: 100%;
-            padding: 12px;
-            font-size: 1.1em;
-            border: 2px solid #bdc3c7;
-            border-radius: 8px;
+            padding: 15px;
+            font-size: 1.2em;
+            border: 3px solid #bdc3c7;
+            border-radius: 12px;
             box-sizing: border-box;
+            text-align: center;
+            color: #2980b9;
+            font-weight: bold;
         }
         input[type="text"]:focus {
             border-color: #3498db;
@@ -63,147 +97,255 @@
         button {
             display: block;
             width: 100%;
-            background-color: #2ecc71;
+            background-color: #3498db;
             color: white;
             border: none;
-            padding: 18px;
+            padding: 15px;
             font-size: 1.3em;
             font-weight: bold;
             border-radius: 12px;
             cursor: pointer;
-            margin-top: 30px;
+            margin-top: 20px;
+            box-shadow: 0 4px 0px #2980b9;
+            transition: all 0.1s;
         }
-        button:hover { background-color: #27ae60; }
-        #result-container {
-            display: none;
-            margin-top: 30px;
-            padding: 30px;
-            background-color: #fff;
-            border-radius: 12px;
-            text-align: center;
+        button:active {
+            transform: translateY(4px);
+            box-shadow: 0 0px 0px #2980b9;
         }
-        .score {
-            font-size: 2.2em;
+        .btn-next { background-color: #2ecc71; box-shadow: 0 4px 0px #27ae60; }
+        .btn-next:active { box-shadow: 0 0px 0px #27ae60; }
+        
+        #feedback {
+            font-size: 1.3em;
             font-weight: bold;
-            margin-bottom: 20px;
+            min-height: 40px;
+            margin-top: 15px;
         }
-        .feedback-item {
-            margin-bottom: 15px;
-            padding: 15px;
-            border-radius: 8px;
-            border-left: 4px solid;
+        .correct { color: #27ae60; animation: pop 0.3s; }
+        .incorrect { color: #e74c3c; animation: shake 0.3s; }
+        
+        .mistake-list {
             text-align: left;
+            font-size: 1.1em;
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 10px;
+            background: #f9f9f9;
+            border-radius: 10px;
+            border: 2px solid #eee;
         }
-        .correct-item { background-color: #e8f8f5; border-left-color: #2ecc71; color: #196f3d; }
-        .incorrect-item { background-color: #fce4d6; border-left-color: #e67e22; color: #a04000; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pop { 0% { transform: scale(0.9); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }
     </style>
 </head>
 <body>
 
-    <h1>📝 English Test: Complete Unit</h1>
-    <div class="subtitle">Escribe la palabra correcta en inglés. ¡Cuidado con la ortografía!</div>
+    <h1>🎮 English Spelling Game</h1>
+    
+    <div class="progress-container">
+        <div class="progress-bar" id="progress-bar"></div>
+    </div>
 
-    <form id="quiz-form">
-        <!-- DAYS & NUMBERS -->
-        <div class="question-card"><div class="question-category">Days of the week</div><div class="question-title">1. Lunes</div><input type="text" id="q1"></div>
-        <div class="question-card"><div class="question-category">Days of the week</div><div class="question-title">2. Miércoles</div><input type="text" id="q2"></div>
-        <div class="question-card"><div class="question-category">Numbers</div><div class="question-title">3. Escribe el número: 12</div><input type="text" id="q3"></div>
-        <div class="question-card"><div class="question-category">Numbers</div><div class="question-title">4. Escribe el número: 20</div><input type="text" id="q4"></div>
+    <!-- PANTALLA DE PREGUNTAS -->
+    <div id="screen-quiz" class="screen active">
+        <div class="gif-container">
+            <img id="category-gif" src="" alt="Category GIF">
+        </div>
+        <div class="category-badge" id="category-badge">Category</div>
+        <div class="question-title" id="question-text">Question here</div>
+        
+        <input type="text" id="answer-input" placeholder="Type in English..." onkeypress="handleEnter(event)" autocomplete="off">
+        <div id="feedback"></div>
+        
+        <button id="btn-check" onclick="checkAnswer()">Check Answer</button>
+        <button id="btn-next" class="btn-next" style="display: none;" onclick="nextQuestion()">Next Question ➔</button>
+    </div>
 
-        <!-- ALL ANIMALS FROM THE BOOK -->
-        <div class="question-card"><div class="question-category">Animals</div><div class="question-title">5. Conejo</div><input type="text" id="q5"></div>
-        <div class="question-card"><div class="question-category">Animals</div><div class="question-title">6. Loro</div><input type="text" id="q6"></div>
-        <div class="question-card"><div class="question-category">Animals</div><div class="question-title">7. Delfín</div><input type="text" id="q7"></div>
-        <div class="question-card"><div class="question-category">Animals</div><div class="question-title">8. Serpiente</div><input type="text" id="q8"></div>
-        <div class="question-card"><div class="question-category">Animals</div><div class="question-title">9. Rana</div><input type="text" id="q9"></div>
-        <div class="question-card"><div class="question-category">Animals</div><div class="question-title">10. Escorpión</div><input type="text" id="q10"></div>
-        <div class="question-card"><div class="question-category">Animals</div><div class="question-title">11. Lagarto</div><input type="text" id="q11"></div>
-        <div class="question-card"><div class="question-title">12. Mariposa</div><input type="text" id="q12"></div>
-        <div class="question-card"><div class="question-title">13. Gusano / Lombriz</div><input type="text" id="q13"></div>
-        <div class="question-card"><div class="question-title">14. Perro</div><input type="text" id="q14"></div>
-        <div class="question-card"><div class="question-title">15. Pájaro</div><input type="text" id="q15"></div>
-
-        <!-- ALL CHARACTERISTICS/FEELINGS FROM THE BOOK -->
-        <div class="question-card"><div class="question-category">Feelings / Characteristics</div><div class="question-title">16. Fuerte</div><input type="text" id="q16"></div>
-        <div class="question-card"><div class="question-title">17. Valiente</div><input type="text" id="q17"></div>
-        <div class="question-card"><div class="question-title">18. Enérgico</div><input type="text" id="q18"></div>
-        <div class="question-card"><div class="question-title">19. Tímido</div><input type="text" id="q19"></div>
-        <div class="question-card"><div class="question-title">20. Aburrido</div><input type="text" id="q20"></div>
-        <div class="question-card"><div class="question-title">21. Molesto / Disgustado</div><input type="text" id="q21"></div>
-        <div class="question-card"><div class="question-title">22. Ruidoso</div><input type="text" id="q22"></div>
-        <div class="question-card"><div class="question-title">23. Silencioso / Tranquilo</div><input type="text" id="q23"></div>
-        <div class="question-card"><div class="question-title">24. Peligroso</div><input type="text" id="q24"></div>
-        <div class="question-card"><div class="question-title">25. Colorido</div><input type="text" id="q25"></div>
-        <div class="question-card"><div class="question-title">26. Amigable</div><input type="text" id="q26"></div>
-        <div class="question-card"><div class="question-title">27. Viscoso (Slimy)</div><input type="text" id="q27"></div>
-        <div class="question-card"><div class="question-title">28. Aterrador (Scary)</div><input type="text" id="q28"></div>
-
-        <!-- GRAMMAR -->
-        <div class="question-card"><div class="question-category">Grammar</div><div class="question-title">29. Traduce: "Es un delfín": "______ a dolphin."</div><input type="text" id="q29"></div>
-        <div class="question-card"><div class="question-title">30. Traduce: "No es ruidoso": "______ noisy."</div><input type="text" id="q30"></div>
-        <div class="question-card"><div class="question-title">31. Traduce: "Son mariposas": "______ butterflies."</div><input type="text" id="q31"></div>
-        <div class="question-card"><div class="question-title">32. Traduce: "No son grandes": "______ big."</div><input type="text" id="q32"></div>
-        <div class="question-card"><div class="question-title">33. Traduce: "Hay serpientes": "______ snakes."</div><input type="text" id="q33"></div>
-
-        <button type="button" onclick="corregirExamen()">Corregir Examen</button>
-    </form>
-
-    <div id="result-container">
-        <h2>Resultado Final</h2>
-        <div class="score" id="score-display"></div>
-        <div id="feedback-display"></div>
+    <!-- PANTALLA DE RESULTADOS -->
+    <div id="screen-result" class="screen">
+        <h2>🏁 Game Over! 🏁</h2>
+        <h1 style="background: transparent; color: #8e44ad; box-shadow: none; font-size: 3em; margin: 0;" id="final-score"></h1>
+        
+        <div id="mistakes-container" style="display: none; margin-top: 20px;">
+            <h3 style="color: #e74c3c;">Words to practice:</h3>
+            <div class="mistake-list" id="mistakes-list"></div>
+        </div>
     </div>
 
     <script>
-        const respuestas = {
-            q1: ['monday'], q2: ['wednesday'], q3: ['twelve'], q4: ['twenty'],
-            q5: ['rabbit'], q6: ['parrot'], q7: ['dolphin'], q8: ['snake'], 
-            q9: ['frog'], q10: ['scorpion'], q11: ['lizard'], q12: ['butterfly'], 
-            q13: ['worm'], q14: ['dog'], q15: ['bird'],
+        const quizData = [
+            // Numbers 1-20
+            { cat: "Numbers 1-20", prompt: "Write the number: 1", ans: ["one"] },
+            { cat: "Numbers 1-20", prompt: "Write the number: 2", ans: ["two"] },
+            { cat: "Numbers 1-20", prompt: "Write the number: 3", ans: ["three"] },
+            { cat: "Numbers 1-20", prompt: "Write the number: 4", ans: ["four"] },
+            { cat: "Numbers 1-20", prompt: "Write the number: 5", ans: ["five"] },
+            { cat: "Numbers 1-20", prompt: "Write the number: 6", ans: ["six"] },
+            { cat: "Numbers 1-20", prompt: "Write the number: 7", ans: ["seven"] },
+            { cat: "Numbers 1-20", prompt: "Write the number: 8", ans: ["eight"] },
+            { cat: "Numbers 1-20", prompt: "Write the number: 9", ans: ["nine"] },
+            { cat: "Numbers 1-20", prompt: "Write the number: 10", ans: ["ten"] },
+            { cat: "Numbers 1-20", prompt: "Write the number: 11", ans: ["eleven"] },
+            { cat: "Numbers 1-20", prompt: "Write the number: 12", ans: ["twelve"] },
+            { cat: "Numbers 1-20", prompt: "Write the number: 13", ans: ["thirteen"] },
+            { cat: "Numbers 1-20", prompt: "Write the number: 14", ans: ["fourteen"] },
+            { cat: "Numbers 1-20", prompt: "Write the number: 15", ans: ["fifteen"] },
+            { cat: "Numbers 1-20", prompt: "Write the number: 16", ans: ["sixteen"] },
+            { cat: "Numbers 1-20", prompt: "Write the number: 17", ans: ["seventeen"] },
+            { cat: "Numbers 1-20", prompt: "Write the number: 18", ans: ["eighteen"] },
+            { cat: "Numbers 1-20", prompt: "Write the number: 19", ans: ["nineteen"] },
+            { cat: "Numbers 1-20", prompt: "Write the number: 20", ans: ["twenty"] },
             
-            q16: ['strong'], q17: ['brave'], q18: ['energetic'], q19: ['shy'], 
-            q20: ['bored'], q21: ['upset'], q22: ['noisy'], q23: ['quiet'], 
-            q24: ['dangerous'], q25: ['colourful', 'colorful'], q26: ['friendly'], 
-            q27: ['slimy'], q28: ['scary'],
-            
-            q29: ["it is", "it's"],
-            q30: ["it isn't", "it is not", "it's not"],
-            q31: ["they are", "they're"],
-            q32: ["they aren't", "they are not", "they're not"],
-            q33: ["there are"]
+            // Days of the week
+            { cat: "Days of the week", prompt: "Translate: Lunes", ans: ["monday"] },
+            { cat: "Days of the week", prompt: "Translate: Martes", ans: ["tuesday"] },
+            { cat: "Days of the week", prompt: "Translate: Miércoles", ans: ["wednesday"] },
+            { cat: "Days of the week", prompt: "Translate: Jueves", ans: ["thursday"] },
+            { cat: "Days of the week", prompt: "Translate: Viernes", ans: ["friday"] },
+            { cat: "Days of the week", prompt: "Translate: Sábado", ans: ["saturday"] },
+            { cat: "Days of the week", prompt: "Translate: Domingo", ans: ["sunday"] },
+
+            // Animals
+            { cat: "Animals", prompt: "Translate: Conejo", ans: ["rabbit"] },
+            { cat: "Animals", prompt: "Translate: Loro", ans: ["parrot"] },
+            { cat: "Animals", prompt: "Translate: Delfín", ans: ["dolphin"] },
+            { cat: "Animals", prompt: "Translate: Serpiente", ans: ["snake"] },
+            { cat: "Animals", prompt: "Translate: Rana", ans: ["frog"] },
+            { cat: "Animals", prompt: "Translate: Escorpión", ans: ["scorpion"] },
+            { cat: "Animals", prompt: "Translate: Lagarto", ans: ["lizard"] },
+            { cat: "Animals", prompt: "Translate: Mariposa", ans: ["butterfly"] },
+            { cat: "Animals", prompt: "Translate: Gusano", ans: ["worm"] },
+            { cat: "Animals", prompt: "Translate: Perro", ans: ["dog"] },
+            { cat: "Animals", prompt: "Translate: Pájaro", ans: ["bird"] },
+
+            // Characteristics / Feelings
+            { cat: "Characteristics & Feelings", prompt: "Translate: Fuerte", ans: ["strong"] },
+            { cat: "Characteristics & Feelings", prompt: "Translate: Valiente", ans: ["brave"] },
+            { cat: "Characteristics & Feelings", prompt: "Translate: Enérgico", ans: ["energetic"] },
+            { cat: "Characteristics & Feelings", prompt: "Translate: Tímido", ans: ["shy"] },
+            { cat: "Characteristics & Feelings", prompt: "Translate: Aburrido", ans: ["bored"] },
+            { cat: "Characteristics & Feelings", prompt: "Translate: Molesto / Disgustado", ans: ["upset"] },
+            { cat: "Characteristics & Feelings", prompt: "Translate: Ruidoso", ans: ["noisy"] },
+            { cat: "Characteristics & Feelings", prompt: "Translate: Silencioso / Tranquilo", ans: ["quiet", "calm"] },
+            { cat: "Characteristics & Feelings", prompt: "Translate: Peligroso", ans: ["dangerous"] },
+            { cat: "Characteristics & Feelings", prompt: "Translate: Colorido", ans: ["colourful", "colorful"] },
+            { cat: "Characteristics & Feelings", prompt: "Translate: Amigable", ans: ["friendly"] },
+            { cat: "Characteristics & Feelings", prompt: "Translate: Viscoso (Slimy)", ans: ["slimy"] },
+            { cat: "Characteristics & Feelings", prompt: "Translate: Aterrador", ans: ["scary"] },
+            { cat: "Characteristics & Feelings", prompt: "Translate: Largo", ans: ["long"] },
+
+            // Grammar
+            { cat: "Grammar", prompt: "Complete: 'Es un delfín' -> ______ a dolphin.", ans: ["it is", "it's"] },
+            { cat: "Grammar", prompt: "Complete: 'No es ruidoso' -> ______ noisy.", ans: ["it isn't", "it is not", "it's not"] },
+            { cat: "Grammar", prompt: "Complete: 'Son mariposas' -> ______ butterflies.", ans: ["they are", "they're"] },
+            { cat: "Grammar", prompt: "Complete: 'No son grandes' -> ______ big.", ans: ["they aren't", "they are not", "they're not"] },
+            { cat: "Grammar", prompt: "Complete: 'Hay serpientes' -> ______ snakes.", ans: ["there are"] }
+        ];
+
+        // GIFs divertidos para cada categoría
+        const gifs = {
+            "Numbers 1-20": "https://media.giphy.com/media/l41lNx6qN1Dp1pepm/giphy.gif",
+            "Days of the week": "https://media.giphy.com/media/3o7TKr3nzbh5WgCFxe/giphy.gif",
+            "Animals": "https://media.giphy.com/media/3o6Zt481isNvuFIWc0/giphy.gif",
+            "Characteristics & Feelings": "https://media.giphy.com/media/l1J9sBCbyZs92zmmI/giphy.gif",
+            "Grammar": "https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif"
         };
 
-        function corregirExamen() {
-            let puntuacio = 0;
-            let feedbackHTML = '<h3>Corrección de tus respuestas:</h3>';
+        let currentIndex = 0;
+        let score = 0;
+        let mistakes = [];
+
+        function updateProgress() {
+            const progress = (currentIndex / quizData.length) * 100;
+            document.getElementById('progress-bar').style.width = `${progress}%`;
+        }
+
+        function loadQuestion() {
+            const q = quizData[currentIndex];
             
-            for (let i = 1; i <= 33; i++) {
-                const inputElement = document.getElementById('q' + i);
-                const respuestaUsuario = inputElement.value.toLowerCase().trim();
-                const opcionesCorrectas = respuestas['q' + i];
+            document.getElementById('category-badge').textContent = q.cat;
+            document.getElementById('category-gif').src = gifs[q.cat];
+            document.getElementById('question-text').textContent = q.prompt;
+            
+            const input = document.getElementById('answer-input');
+            input.value = '';
+            input.disabled = false;
+            input.focus();
 
-                if (respuestaUsuario === "") {
-                    alert(`Te falta responder la pregunta ${i}. ¡Inténtalo!`);
-                    return;
-                }
+            document.getElementById('feedback').textContent = '';
+            document.getElementById('btn-check').style.display = 'block';
+            document.getElementById('btn-next').style.display = 'none';
+            
+            updateProgress();
+        }
 
-                if (opcionesCorrectas.includes(respuestaUsuario)) {
-                    puntuacio++;
-                    feedbackHTML += `<div class="feedback-item correct-item"><strong>Pregunta ${i}: ¡Correcto!</strong> Escribiste "${respuestaUsuario}".</div>`;
+        function checkAnswer() {
+            const input = document.getElementById('answer-input');
+            const userAnswer = input.value.toLowerCase().trim();
+            
+            if (userAnswer === "") return; // Si está vacío no hace nada
+
+            const q = quizData[currentIndex];
+            const correctAnswers = q.ans;
+            const feedback = document.getElementById('feedback');
+
+            input.disabled = true;
+            document.getElementById('btn-check').style.display = 'none';
+            document.getElementById('btn-next').style.display = 'block';
+
+            // Reiniciar animaciones CSS
+            feedback.className = '';
+            void feedback.offsetWidth; 
+
+            if (correctAnswers.includes(userAnswer)) {
+                score++;
+                feedback.textContent = `⭐ ¡Correcto!`;
+                feedback.classList.add('correct');
+            } else {
+                feedback.innerHTML = `❌ Era: <strong>${correctAnswers[0]}</strong>`;
+                feedback.classList.add('incorrect');
+                mistakes.push(`<strong>${q.prompt}</strong><br>Tu respuesta: <em>${userAnswer}</em> ➔ Correcta: <strong>${correctAnswers[0]}</strong>`);
+            }
+        }
+
+        function handleEnter(e) {
+            if (e.key === 'Enter') {
+                if (document.getElementById('btn-check').style.display === 'block') {
+                    checkAnswer();
                 } else {
-                    feedbackHTML += `<div class="feedback-item incorrect-item"><strong>Pregunta ${i}: Incorrecto.</strong> Escribiste "${inputElement.value}". La respuesta correcta era: <strong>${opcionesCorrectas[0]}</strong>.</div>`;
+                    nextQuestion();
                 }
             }
-
-            document.getElementById('quiz-form').style.display = 'none';
-            const resultContainer = document.getElementById('result-container');
-            const scoreDisplay = document.getElementById('score-display');
-            document.getElementById('feedback-display').innerHTML = feedbackHTML;
-
-            resultContainer.style.display = 'block';
-            scoreDisplay.textContent = `Tu nota es: ${puntuacio} / 33`;
-            window.scrollTo(0, 0);
         }
+
+        function nextQuestion() {
+            currentIndex++;
+            if (currentIndex < quizData.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('screen-quiz').classList.remove('active');
+            document.getElementById('screen-result').classList.add('active');
+            
+            document.getElementById('progress-bar').style.width = `100%`;
+            document.getElementById('final-score').textContent = `${score} / ${quizData.length}`;
+
+            if (mistakes.length > 0) {
+                document.getElementById('mistakes-container').style.display = 'block';
+                const list = document.getElementById('mistakes-list');
+                list.innerHTML = mistakes.map(m => `<p style="margin-bottom: 10px; border-bottom: 1px solid #ddd; padding-bottom: 5px;">${m}</p>`).join('');
+            }
+        }
+
+        // Iniciar la primera pregunta al cargar
+        window.onload = loadQuestion;
     </script>
 </body>
 </html>
