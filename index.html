@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Test: Complete Vocabulary</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f7;
+            color: #2c3e50;
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            color: #fff;
+            background-color: #3498db;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 1.1em;
+            margin-bottom: 30px;
+        }
+        .question-card {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border-left: 6px solid #f39c12;
+        }
+        .question-category {
+            font-size: 0.85em;
+            text-transform: uppercase;
+            color: #e67e22;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .question-title {
+            font-weight: bold;
+            font-size: 1.15em;
+            margin-bottom: 15px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            font-size: 1.1em;
+            border: 2px solid #bdc3c7;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+        input[type="text"]:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+        button {
+            display: block;
+            width: 100%;
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            padding: 18px;
+            font-size: 1.3em;
+            font-weight: bold;
+            border-radius: 12px;
+            cursor: pointer;
+            margin-top: 30px;
+        }
+        button:hover { background-color: #27ae60; }
+        #result-container {
+            display: none;
+            margin-top: 30px;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .score {
+            font-size: 2.2em;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .feedback-item {
+            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid;
+            text-align: left;
+        }
+        .correct-item { background-color: #e8f8f5; border-left-color: #2ecc71; color: #196f3d; }
+        .incorrect-item { background-color: #fce4d6; border-left-color: #e67e22; color: #a04000; }
+    </style>
+</head>
+<body>
+
+    <h1>📝 English Test: Complete Unit</h1>
+    <div class="subtitle">Escribe la palabra correcta en inglés. ¡Cuidado con la ortografía!</div>
+
+    <form id="quiz-form">
+        <!-- DAYS & NUMBERS -->
+        <div class="question-card"><div class="question-category">Days of the week</div><div class="question-title">1. Lunes</div><input type="text" id="q1"></div>
+        <div class="question-card"><div class="question-category">Days of the week</div><div class="question-title">2. Miércoles</div><input type="text" id="q2"></div>
+        <div class="question-card"><div class="question-category">Numbers</div><div class="question-title">3. Escribe el número: 12</div><input type="text" id="q3"></div>
+        <div class="question-card"><div class="question-category">Numbers</div><div class="question-title">4. Escribe el número: 20</div><input type="text" id="q4"></div>
+
+        <!-- ALL ANIMALS FROM THE BOOK -->
+        <div class="question-card"><div class="question-category">Animals</div><div class="question-title">5. Conejo</div><input type="text" id="q5"></div>
+        <div class="question-card"><div class="question-category">Animals</div><div class="question-title">6. Loro</div><input type="text" id="q6"></div>
+        <div class="question-card"><div class="question-category">Animals</div><div class="question-title">7. Delfín</div><input type="text" id="q7"></div>
+        <div class="question-card"><div class="question-category">Animals</div><div class="question-title">8. Serpiente</div><input type="text" id="q8"></div>
+        <div class="question-card"><div class="question-category">Animals</div><div class="question-title">9. Rana</div><input type="text" id="q9"></div>
+        <div class="question-card"><div class="question-category">Animals</div><div class="question-title">10. Escorpión</div><input type="text" id="q10"></div>
+        <div class="question-card"><div class="question-category">Animals</div><div class="question-title">11. Lagarto</div><input type="text" id="q11"></div>
+        <div class="question-card"><div class="question-title">12. Mariposa</div><input type="text" id="q12"></div>
+        <div class="question-card"><div class="question-title">13. Gusano / Lombriz</div><input type="text" id="q13"></div>
+        <div class="question-card"><div class="question-title">14. Perro</div><input type="text" id="q14"></div>
+        <div class="question-card"><div class="question-title">15. Pájaro</div><input type="text" id="q15"></div>
+
+        <!-- ALL CHARACTERISTICS/FEELINGS FROM THE BOOK -->
+        <div class="question-card"><div class="question-category">Feelings / Characteristics</div><div class="question-title">16. Fuerte</div><input type="text" id="q16"></div>
+        <div class="question-card"><div class="question-title">17. Valiente</div><input type="text" id="q17"></div>
+        <div class="question-card"><div class="question-title">18. Enérgico</div><input type="text" id="q18"></div>
+        <div class="question-card"><div class="question-title">19. Tímido</div><input type="text" id="q19"></div>
+        <div class="question-card"><div class="question-title">20. Aburrido</div><input type="text" id="q20"></div>
+        <div class="question-card"><div class="question-title">21. Molesto / Disgustado</div><input type="text" id="q21"></div>
+        <div class="question-card"><div class="question-title">22. Ruidoso</div><input type="text" id="q22"></div>
+        <div class="question-card"><div class="question-title">23. Silencioso / Tranquilo</div><input type="text" id="q23"></div>
+        <div class="question-card"><div class="question-title">24. Peligroso</div><input type="text" id="q24"></div>
+        <div class="question-card"><div class="question-title">25. Colorido</div><input type="text" id="q25"></div>
+        <div class="question-card"><div class="question-title">26. Amigable</div><input type="text" id="q26"></div>
+        <div class="question-card"><div class="question-title">27. Viscoso (Slimy)</div><input type="text" id="q27"></div>
+        <div class="question-card"><div class="question-title">28. Aterrador (Scary)</div><input type="text" id="q28"></div>
+
+        <!-- GRAMMAR -->
+        <div class="question-card"><div class="question-category">Grammar</div><div class="question-title">29. Traduce: "Es un delfín": "______ a dolphin."</div><input type="text" id="q29"></div>
+        <div class="question-card"><div class="question-title">30. Traduce: "No es ruidoso": "______ noisy."</div><input type="text" id="q30"></div>
+        <div class="question-card"><div class="question-title">31. Traduce: "Son mariposas": "______ butterflies."</div><input type="text" id="q31"></div>
+        <div class="question-card"><div class="question-title">32. Traduce: "No son grandes": "______ big."</div><input type="text" id="q32"></div>
+        <div class="question-card"><div class="question-title">33. Traduce: "Hay serpientes": "______ snakes."</div><input type="text" id="q33"></div>
+
+        <button type="button" onclick="corregirExamen()">Corregir Examen</button>
+    </form>
+
+    <div id="result-container">
+        <h2>Resultado Final</h2>
+        <div class="score" id="score-display"></div>
+        <div id="feedback-display"></div>
+    </div>
+
+    <script>
+        const respuestas = {
+            q1: ['monday'], q2: ['wednesday'], q3: ['twelve'], q4: ['twenty'],
+            q5: ['rabbit'], q6: ['parrot'], q7: ['dolphin'], q8: ['snake'], 
+            q9: ['frog'], q10: ['scorpion'], q11: ['lizard'], q12: ['butterfly'], 
+            q13: ['worm'], q14: ['dog'], q15: ['bird'],
+            
+            q16: ['strong'], q17: ['brave'], q18: ['energetic'], q19: ['shy'], 
+            q20: ['bored'], q21: ['upset'], q22: ['noisy'], q23: ['quiet'], 
+            q24: ['dangerous'], q25: ['colourful', 'colorful'], q26: ['friendly'], 
+            q27: ['slimy'], q28: ['scary'],
+            
+            q29: ["it is", "it's"],
+            q30: ["it isn't", "it is not", "it's not"],
+            q31: ["they are", "they're"],
+            q32: ["they aren't", "they are not", "they're not"],
+            q33: ["there are"]
+        };
+
+        function corregirExamen() {
+            let puntuacio = 0;
+            let feedbackHTML = '<h3>Corrección de tus respuestas:</h3>';
+            
+            for (let i = 1; i <= 33; i++) {
+                const inputElement = document.getElementById('q' + i);
+                const respuestaUsuario = inputElement.value.toLowerCase().trim();
+                const opcionesCorrectas = respuestas['q' + i];
+
+                if (respuestaUsuario === "") {
+                    alert(`Te falta responder la pregunta ${i}. ¡Inténtalo!`);
+                    return;
+                }
+
+                if (opcionesCorrectas.includes(respuestaUsuario)) {
+                    puntuacio++;
+                    feedbackHTML += `<div class="feedback-item correct-item"><strong>Pregunta ${i}: ¡Correcto!</strong> Escribiste "${respuestaUsuario}".</div>`;
+                } else {
+                    feedbackHTML += `<div class="feedback-item incorrect-item"><strong>Pregunta ${i}: Incorrecto.</strong> Escribiste "${inputElement.value}". La respuesta correcta era: <strong>${opcionesCorrectas[0]}</strong>.</div>`;
+                }
+            }
+
+            document.getElementById('quiz-form').style.display = 'none';
+            const resultContainer = document.getElementById('result-container');
+            const scoreDisplay = document.getElementById('score-display');
+            document.getElementById('feedback-display').innerHTML = feedbackHTML;
+
+            resultContainer.style.display = 'block';
+            scoreDisplay.textContent = `Tu nota es: ${puntuacio} / 33`;
+            window.scrollTo(0, 0);
+        }
+    </script>
+</body>
+</html>
