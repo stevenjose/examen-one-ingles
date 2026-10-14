@@ -1,787 +1,1392 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>English Quest - Repaso Examen 28 Octubre</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title id="page-title">English Quest v2.10 - Examen 28 Octubre</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
     <style>
-        :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --secondary: #ec4899;
-            --success: #22c55e;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-            --bg-gradient: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #1e1b4b 100%);
-        }
+      :root {
+        --primary: #6366f1;
+        --secondary: #ec4899;
+        --success: #22c55e;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+        --bg-gradient: linear-gradient(
+          135deg,
+          #1e1b4b 0%,
+          #312e81 50%,
+          #1e1b4b 100%
+        );
+      }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
 
-        body {
-            font-family: 'Fredoka', sans-serif;
-            background: var(--bg-gradient);
-            color: #fff;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 15px;
-            overflow-x: hidden;
-        }
+      body {
+        font-family: "Fredoka", sans-serif;
+        background: var(--bg-gradient);
+        color: #fff;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 12px;
+        overflow-x: hidden;
+      }
 
-        .game-wrapper {
-            width: 100%;
-            max-width: 600px;
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(15px);
-            border: 2px solid rgba(255, 255, 255, 0.15);
-            border-radius: 24px;
-            padding: 20px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
-            position: relative;
-        }
+      .game-wrapper {
+        width: 100%;
+        max-width: 650px;
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(15px);
+        border: 2px solid rgba(255, 255, 255, 0.15);
+        border-radius: 24px;
+        padding: 18px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+        position: relative;
+      }
 
-        /* --- BARRA SUPERIOR Y PROGRESO --- */
-        .top-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-            font-size: 1.1rem;
-            font-weight: 600;
-        }
+      /* --- SELECTOR DE MÓDULOS / TEMAS --- */
+      .module-selector {
+        display: flex;
+        gap: 6px;
+        overflow-x: auto;
+        padding-bottom: 10px;
+        margin-bottom: 12px;
+        scrollbar-width: thin;
+      }
 
-        .badge {
-            background: rgba(255, 255, 255, 0.15);
-            padding: 6px 14px;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
+      .mod-btn {
+        background: rgba(255, 255, 255, 0.12);
+        border: 2px solid transparent;
+        color: #cbd5e1;
+        padding: 8px 12px;
+        border-radius: 14px;
+        font-family: "Fredoka", sans-serif;
+        font-weight: 600;
+        font-size: 0.85rem;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: all 0.2s;
+      }
 
-        .progress-container {
-            width: 100%;
-            height: 14px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 10px;
-            overflow: hidden;
-            margin-bottom: 20px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
+      .mod-btn.active {
+        background: var(--primary);
+        color: white;
+        border-color: #a5b4fc;
+        box-shadow: 0 0 12px rgba(99, 102, 241, 0.5);
+      }
 
-        .progress-bar {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, #00f3ff, #22c55e);
-            transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
+      /* --- BARRA SUPERIOR Y BADGE DE VERSIÓN --- */
+      .top-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
 
-        /* ==========================================
+      .badge {
+        background: rgba(255, 255, 255, 0.15);
+        padding: 5px 12px;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .version-badge {
+        background: linear-gradient(135deg, #0ea5e9, #6366f1);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        color: #fff;
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        letter-spacing: 0.5px;
+        cursor: pointer;
+        box-shadow: 0 0 10px rgba(14, 165, 233, 0.4);
+        transition: transform 0.2s;
+      }
+
+      .version-badge:hover {
+        transform: scale(1.05);
+      }
+
+      .progress-container {
+        width: 100%;
+        height: 12px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 15px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .progress-bar {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, #00f3ff, #22c55e);
+        transition: width 0.4s ease;
+      }
+
+      /* ==========================================
            MUÑECO 3D INTERACTIVO (ROBO-TEACHER)
            ========================================== */
-        .mascot-stage {
-            perspective: 800px;
-            height: 140px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 10px;
-            position: relative;
-        }
+      .mascot-stage {
+        perspective: 800px;
+        height: 125px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 8px;
+      }
 
-        .robot-3d {
-            width: 110px;
-            height: 105px;
-            position: relative;
-            transform-style: preserve-3d;
-            animation: float3d 3s ease-in-out infinite;
-            transition: transform 0.3s ease;
-            cursor: pointer;
-        }
+      .robot-3d {
+        width: 100px;
+        height: 95px;
+        position: relative;
+        transform-style: preserve-3d;
+        animation: float3d 3s ease-in-out infinite;
+        cursor: pointer;
+      }
 
-        @keyframes float3d {
-            0%, 100% { transform: translateY(0px) rotateX(5deg) rotateY(-8deg); }
-            50% { transform: translateY(-12px) rotateX(-5deg) rotateY(8deg); }
+      @keyframes float3d {
+        0%,
+        100% {
+          transform: translateY(0px) rotateX(5deg) rotateY(-8deg);
         }
+        50% {
+          transform: translateY(-10px) rotateX(-5deg) rotateY(8deg);
+        }
+      }
 
-        /* Cabeza del Robot con sombras 3D */
-        .robot-head {
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(145deg, #60a5fa, #3b82f6);
-            border-radius: 26px;
-            border: 3px solid #93c5fd;
-            box-shadow: 
-                0 10px 0 #1d4ed8,
-                0 20px 25px rgba(0,0,0,0.4),
-                inset 0 4px 10px rgba(255,255,255,0.6);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            transition: all 0.3s ease;
-        }
+      .robot-head {
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(145deg, #60a5fa, #3b82f6);
+        border-radius: 24px;
+        border: 3px solid #93c5fd;
+        box-shadow:
+          0 8px 0 #1d4ed8,
+          0 15px 20px rgba(0, 0, 0, 0.4),
+          inset 0 4px 10px rgba(255, 255, 255, 0.6);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        transition: all 0.3s ease;
+      }
 
-        /* Antena 3D */
-        .robot-antenna {
-            position: absolute;
-            top: -22px;
-            width: 8px;
-            height: 20px;
-            background: #94a3b8;
-            border-radius: 4px;
-        }
-        .robot-antenna::after {
-            content: '';
-            position: absolute;
-            top: -12px;
-            left: -6px;
-            width: 20px;
-            height: 20px;
-            background: radial-gradient(circle at 30% 30%, #f43f5e, #be123c);
-            border-radius: 50%;
-            box-shadow: 0 0 15px #f43f5e;
-            animation: pulseGlow 1.5s infinite alternate;
-        }
+      .robot-antenna {
+        position: absolute;
+        top: -18px;
+        width: 6px;
+        height: 16px;
+        background: #94a3b8;
+      }
+      .robot-antenna::after {
+        content: "";
+        position: absolute;
+        top: -10px;
+        left: -5px;
+        width: 16px;
+        height: 16px;
+        background: radial-gradient(circle at 30% 30%, #f43f5e, #be123c);
+        border-radius: 50%;
+        box-shadow: 0 0 12px #f43f5e;
+        animation: pulseGlow 1.5s infinite alternate;
+      }
 
-        @keyframes pulseGlow {
-            from { transform: scale(1); box-shadow: 0 0 8px #f43f5e; }
-            to { transform: scale(1.2); box-shadow: 0 0 20px #ff0055; }
+      @keyframes pulseGlow {
+        from {
+          transform: scale(1);
         }
+        to {
+          transform: scale(1.2);
+          box-shadow: 0 0 18px #ff0055;
+        }
+      }
 
-        /* Orejas laterales */
-        .robot-ear {
-            position: absolute;
-            top: 35px;
-            width: 12px;
-            height: 30px;
-            background: #1d4ed8;
-            border-radius: 6px;
-        }
-        .robot-ear.left { left: -12px; }
-        .robot-ear.right { right: -12px; }
+      .robot-ear {
+        position: absolute;
+        top: 30px;
+        width: 10px;
+        height: 26px;
+        background: #1d4ed8;
+        border-radius: 5px;
+      }
+      .robot-ear.left {
+        left: -10px;
+      }
+      .robot-ear.right {
+        right: -10px;
+      }
 
-        /* Pantalla facial */
-        .robot-screen {
-            width: 82%;
-            height: 68%;
-            background: #0f172a;
-            border-radius: 16px;
-            border: 2px solid #1e293b;
-            box-shadow: inset 0 0 12px rgba(0, 243, 255, 0.3);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            padding: 8px;
-        }
+      .robot-screen {
+        width: 82%;
+        height: 68%;
+        background: #0f172a;
+        border-radius: 14px;
+        border: 2px solid #1e293b;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
 
-        /* Ojos */
-        .eyes-row {
-            display: flex;
-            gap: 18px;
+      .eyes-row {
+        display: flex;
+        gap: 16px;
+      }
+      .eye {
+        width: 14px;
+        height: 18px;
+        background: #00f3ff;
+        border-radius: 50%;
+        box-shadow: 0 0 8px #00f3ff;
+        animation: blinkEye 4s infinite;
+      }
+      @keyframes blinkEye {
+        0%,
+        94%,
+        98% {
+          transform: scaleY(1);
         }
-        .eye {
-            width: 16px;
-            height: 20px;
-            background: #00f3ff;
-            border-radius: 50%;
-            box-shadow: 0 0 10px #00f3ff;
-            animation: blinkEye 4s infinite;
-            transition: all 0.2s;
+        96% {
+          transform: scaleY(0.1);
         }
-        @keyframes blinkEye {
-            0%, 94%, 98% { transform: scaleY(1); }
-            96% { transform: scaleY(0.1); }
-        }
+      }
 
-        /* Boca (Ecualizador de voz) */
-        .mouth {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 3px;
-            height: 14px;
-        }
-        .mouth-bar {
-            width: 5px;
-            height: 4px;
-            background: #00f3ff;
-            border-radius: 3px;
-            transition: height 0.1s ease;
-            box-shadow: 0 0 6px #00f3ff;
-        }
+      .mouth {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 3px;
+        height: 12px;
+      }
+      .mouth-bar {
+        width: 4px;
+        height: 4px;
+        background: #00f3ff;
+        border-radius: 2px;
+      }
 
-        /* Animación cuando el robot HABLA */
-        .robot-3d.speaking .mouth-bar:nth-child(1) { animation: talk 0.25s infinite alternate; }
-        .robot-3d.speaking .mouth-bar:nth-child(2) { animation: talk 0.2s infinite alternate 0.05s; }
-        .robot-3d.speaking .mouth-bar:nth-child(3) { animation: talk 0.3s infinite alternate 0.1s; }
-        .robot-3d.speaking .mouth-bar:nth-child(4) { animation: talk 0.2s infinite alternate 0.15s; }
-        .robot-3d.speaking .mouth-bar:nth-child(5) { animation: talk 0.25s infinite alternate 0.05s; }
+      .robot-3d.speaking .mouth-bar:nth-child(1) {
+        animation: talk 0.25s infinite alternate;
+      }
+      .robot-3d.speaking .mouth-bar:nth-child(2) {
+        animation: talk 0.2s infinite alternate 0.05s;
+      }
+      .robot-3d.speaking .mouth-bar:nth-child(3) {
+        animation: talk 0.3s infinite alternate 0.1s;
+      }
+      .robot-3d.speaking .mouth-bar:nth-child(4) {
+        animation: talk 0.2s infinite alternate 0.15s;
+      }
+      .robot-3d.speaking .mouth-bar:nth-child(5) {
+        animation: talk 0.25s infinite alternate 0.05s;
+      }
 
-        @keyframes talk {
-            0% { height: 4px; }
-            100% { height: 16px; background: #38bdf8; }
+      @keyframes talk {
+        0% {
+          height: 4px;
         }
-
-        /* Estado FELIZ (Acierto) */
-        .robot-3d.happy .robot-head {
-            background: linear-gradient(145deg, #4ade80, #16a34a);
-            border-color: #bbf7d0;
-            box-shadow: 0 10px 0 #15803d, 0 20px 25px rgba(0,0,0,0.4);
+        100% {
+          height: 14px;
+          background: #38bdf8;
         }
-        .robot-3d.happy .eye {
-            background: #4ade80;
-            box-shadow: 0 0 12px #4ade80;
-            border-radius: 50% 50% 0 0;
-            height: 12px;
-        }
+      }
 
-        /* Estado PISTA / PENSANDO */
-        .robot-3d.thinking .robot-head {
-            background: linear-gradient(145deg, #fbbf24, #d97706);
-            border-color: #fde68a;
-            box-shadow: 0 10px 0 #b45309, 0 20px 25px rgba(0,0,0,0.4);
-        }
+      .robot-3d.happy .robot-head {
+        background: linear-gradient(145deg, #4ade80, #16a34a);
+        border-color: #bbf7d0;
+        box-shadow: 0 8px 0 #15803d;
+      }
+      .robot-3d.thinking .robot-head {
+        background: linear-gradient(145deg, #fbbf24, #d97706);
+        border-color: #fde68a;
+        box-shadow: 0 8px 0 #b45309;
+      }
+      .robot-3d.oops .robot-head {
+        background: linear-gradient(145deg, #f87171, #dc2626);
+        border-color: #fecaca;
+        box-shadow: 0 8px 0 #991b1b;
+      }
 
-        /* Estado ERROR */
-        .robot-3d.oops .robot-head {
-            background: linear-gradient(145deg, #f87171, #dc2626);
-            border-color: #fecaca;
-            box-shadow: 0 10px 0 #991b1b, 0 20px 25px rgba(0,0,0,0.4);
-        }
+      /* --- BOCADILLO DE AYUDA --- */
+      .help-bubble {
+        background: #ffffff;
+        color: #1e293b;
+        border-radius: 16px;
+        padding: 14px;
+        margin-bottom: 14px;
+        border: 3px solid var(--warning);
+        display: none;
+      }
 
-        /* --- BOCADILLO DE AYUDA (SPEECH BUBBLE) --- */
-        .help-bubble {
-            background: #ffffff;
-            color: #1e293b;
-            border-radius: 18px;
-            padding: 15px;
-            margin-bottom: 18px;
-            position: relative;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.25);
-            border: 3px solid var(--warning);
-            display: none;
-            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
+      .help-title {
+        font-weight: 700;
+        color: #d97706;
+        margin-bottom: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 0.95rem;
+      }
 
-        .help-bubble::before {
-            content: '';
-            position: absolute;
-            top: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            border-width: 0 12px 12px 12px;
-            border-style: solid;
-            border-color: transparent transparent var(--warning) transparent;
-        }
+      .help-text {
+        font-size: 0.95rem;
+        line-height: 1.4;
+        margin-bottom: 8px;
+      }
+      .help-example {
+        background: #fef3c7;
+        border-left: 4px solid #f59e0b;
+        padding: 7px 10px;
+        border-radius: 6px;
+        font-size: 0.88rem;
+        color: #92400e;
+        margin-bottom: 10px;
+      }
 
-        @keyframes popIn {
-            from { opacity: 0; transform: scale(0.85) translateY(-10px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
-        }
+      /* --- TARJETA DE PREGUNTA --- */
+      .question-card {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 18px;
+        padding: 16px;
+        text-align: center;
+      }
 
-        .help-title {
-            font-weight: 700;
-            color: #d97706;
-            margin-bottom: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-size: 1rem;
-        }
+      .category-tag {
+        display: inline-block;
+        background: var(--secondary);
+        color: white;
+        font-size: 0.78rem;
+        padding: 4px 12px;
+        border-radius: 15px;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+      }
 
-        .help-text {
-            font-size: 0.98rem;
-            line-height: 1.4;
-            margin-bottom: 8px;
-        }
+      .emoji-visual {
+        font-size: 2.8rem;
+        margin: 4px 0;
+      }
+      .question-text {
+        font-size: 1.25rem;
+        margin-bottom: 12px;
+        line-height: 1.3;
+      }
 
-        .help-example {
-            background: #fef3c7;
-            border-left: 4px solid #f59e0b;
-            padding: 8px 10px;
-            border-radius: 6px;
-            font-size: 0.9rem;
-            color: #92400e;
-            margin-bottom: 10px;
-        }
+      .quick-chips {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 12px;
+      }
 
-        .help-actions {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
+      .chip-btn {
+        background: rgba(255, 255, 255, 0.18);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        color: #fff;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-family: "Fredoka", sans-serif;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .chip-btn:hover {
+        background: var(--primary);
+        border-color: #fff;
+      }
 
-        /* --- TARJETA DE PREGUNTA --- */
-        .question-card {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 18px;
-            padding: 18px;
-            text-align: center;
-            margin-bottom: 16px;
-        }
+      .audio-controls {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        margin-bottom: 14px;
+        flex-wrap: wrap;
+      }
 
-        .category-tag {
-            display: inline-block;
-            background: var(--secondary);
-            color: white;
-            font-size: 0.8rem;
-            padding: 4px 12px;
-            border-radius: 15px;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
+      .btn-tool {
+        border: none;
+        padding: 8px 12px;
+        border-radius: 12px;
+        font-family: "Fredoka", sans-serif;
+        font-weight: 600;
+        font-size: 0.85rem;
+        cursor: pointer;
+        color: white;
+      }
 
-        .emoji-visual {
-            font-size: 3.2rem;
-            margin: 5px 0;
-            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
-        }
+      .btn-listen {
+        background: #0ea5e9;
+        box-shadow: 0 3px 0 #0284c7;
+      }
+      .btn-slow {
+        background: #8b5cf6;
+        box-shadow: 0 3px 0 #6d28d9;
+      }
+      .btn-help {
+        background: #f59e0b;
+        box-shadow: 0 3px 0 #d97706;
+      }
+      .btn-letter {
+        background: #10b981;
+        box-shadow: 0 3px 0 #059669;
+      }
 
-        .question-text {
-            font-size: 1.3rem;
-            margin-bottom: 14px;
-            line-height: 1.3;
-        }
+      .input-group {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
 
-        /* Botones de Audio e Interacción */
-        .audio-controls {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
-        }
+      .answer-input {
+        width: 100%;
+        padding: 12px;
+        font-size: 1.25rem;
+        font-family: "Fredoka", sans-serif;
+        text-align: center;
+        border-radius: 14px;
+        border: 3px solid rgba(255, 255, 255, 0.3);
+        background: rgba(15, 23, 42, 0.85);
+        color: #fff;
+        outline: none;
+      }
+      .answer-input:focus {
+        border-color: #00f3ff;
+      }
 
-        .btn-tool {
-            border: none;
-            padding: 8px 14px;
-            border-radius: 12px;
-            font-family: 'Fredoka', sans-serif;
-            font-weight: 600;
-            font-size: 0.9rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: transform 0.15s, box-shadow 0.15s;
-            color: white;
-        }
+      .btn-row {
+        display: flex;
+        gap: 8px;
+      }
 
-        .btn-tool:active { transform: scale(0.95); }
-        .btn-listen { background: #0ea5e9; box-shadow: 0 4px 0 #0284c7; }
-        .btn-slow { background: #8b5cf6; box-shadow: 0 4px 0 #6d28d9; }
-        .btn-help { background: #f59e0b; box-shadow: 0 4px 0 #d97706; color: #fff; }
-        .btn-letter { background: #10b981; box-shadow: 0 3px 0 #059669; font-size: 0.82rem; padding: 6px 12px; }
+      .btn-submit {
+        flex: 2;
+        background: linear-gradient(135deg, #22c55e, #16a34a);
+        color: white;
+        border: none;
+        padding: 13px;
+        border-radius: 14px;
+        font-size: 1.1rem;
+        font-family: "Fredoka", sans-serif;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 4px 0 #15803d;
+      }
 
-        /* --- CAJA DE ESCRITURA --- */
-        .input-group {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
+      .btn-skip {
+        flex: 1;
+        background: rgba(255, 255, 255, 0.15);
+        color: #e2e8f0;
+        border: none;
+        padding: 13px;
+        border-radius: 14px;
+        font-size: 0.95rem;
+        font-family: "Fredoka", sans-serif;
+        font-weight: 600;
+        cursor: pointer;
+      }
 
-        .answer-input {
-            width: 100%;
-            padding: 14px;
-            font-size: 1.3rem;
-            font-family: 'Fredoka', sans-serif;
-            text-align: center;
-            border-radius: 14px;
-            border: 3px solid rgba(255,255,255,0.3);
-            background: rgba(15, 23, 42, 0.8);
-            color: #fff;
-            outline: none;
-            transition: border-color 0.3s;
-            letter-spacing: 1px;
-        }
+      .feedback-msg {
+        margin-top: 10px;
+        font-size: 1.05rem;
+        font-weight: 600;
+        min-height: 26px;
+      }
 
-        .answer-input:focus {
-            border-color: #00f3ff;
-            box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
-        }
-
-        .btn-submit {
-            background: linear-gradient(135deg, #22c55e, #16a34a);
-            color: white;
-            border: none;
-            padding: 14px;
-            border-radius: 14px;
-            font-size: 1.2rem;
-            font-family: 'Fredoka', sans-serif;
-            font-weight: 700;
-            cursor: pointer;
-            box-shadow: 0 5px 0 #15803d;
-            transition: transform 0.1s;
-        }
-
-        .btn-submit:active {
-            transform: translateY(3px);
-            box-shadow: 0 2px 0 #15803d;
-        }
-
-        .feedback-msg {
-            margin-top: 12px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            min-height: 28px;
-            text-align: center;
-        }
-
+      /* --- PIE DE PÁGINA DE VERSIÓN --- */
+      .version-footer {
+        margin-top: 14px;
+        text-align: center;
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+      }
     </style>
-</head>
-<body>
-
+  </head>
+  <body>
     <div class="game-wrapper">
-        <!-- Barra Superior -->
-        <div class="top-bar">
-            <div class="badge">⭐ Puntos: <span id="score">0</span></div>
-            <div class="badge">📝 <span id="current-q">1</span> / <span id="total-q">15</span></div>
+      <!-- Selector de Categorías -->
+      <div class="module-selector">
+        <button class="mod-btn active" onclick="filterCategory('ALL', this)">
+          🌟 Todo (52)
+        </button>
+        <button class="mod-btn" onclick="filterCategory('DAYS', this)">
+          📅 Días (7)
+        </button>
+        <button class="mod-btn" onclick="filterCategory('NUMBERS', this)">
+          🔢 Números 1-20 (20)
+        </button>
+        <button class="mod-btn" onclick="filterCategory('ANIMALS', this)">
+          🦁 Animales y Partes (13)
+        </button>
+        <button class="mod-btn" onclick="filterCategory('GRAMMAR', this)">
+          💬 It is / Has got / Can (12)
+        </button>
+      </div>
+
+      <!-- Barra Superior con Identificador de Versión -->
+      <div class="top-bar">
+        <div class="badge">⭐ Puntos: <span id="score">0</span></div>
+        <div
+          class="version-badge"
+          onclick="announceVersion()"
+          title="Toca para comprobar versión"
+        >
+          🚀 <span id="version-badge-text">v2.10</span>
+        </div>
+        <div class="badge">
+          📝 <span id="current-q">1</span> / <span id="total-q">52</span>
+        </div>
+      </div>
+
+      <div class="progress-container">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+
+      <!-- MUÑECO 3D -->
+      <div class="mascot-stage">
+        <div class="robot-3d" id="robo-teacher" onclick="robotSalute()">
+          <div class="robot-antenna"></div>
+          <div class="robot-ear left"></div>
+          <div class="robot-ear right"></div>
+          <div class="robot-head">
+            <div class="robot-screen">
+              <div class="eyes-row">
+                <div class="eye"></div>
+                <div class="eye"></div>
+              </div>
+              <div class="mouth">
+                <div class="mouth-bar"></div>
+                <div class="mouth-bar"></div>
+                <div class="mouth-bar"></div>
+                <div class="mouth-bar"></div>
+                <div class="mouth-bar"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOCADILLO DE AYUDA -->
+      <div class="help-bubble" id="help-bubble">
+        <div class="help-title">
+          <span>🤖 Explicación del Robot:</span>
+          <button class="btn-tool btn-letter" onclick="repeatHintVoice()">
+            🔊 Escuchar pista
+          </button>
+        </div>
+        <p class="help-text" id="help-explanation"></p>
+        <div class="help-example" id="help-example"></div>
+        <button class="btn-tool btn-letter" onclick="revealNextLetter()">
+          🔍 Dame una letra (<span id="letters-left"></span>)
+        </button>
+      </div>
+
+      <!-- TARJETA DE PREGUNTA -->
+      <div class="question-card" id="quiz-box">
+        <span class="category-tag" id="q-category">Categoría</span>
+        <div class="emoji-visual" id="q-emoji">📅</div>
+        <h2 class="question-text" id="q-text">Pregunta</h2>
+
+        <div class="quick-chips" id="quick-chips"></div>
+
+        <div class="audio-controls">
+          <button class="btn-tool btn-listen" onclick="speakEnglishWord(0.9)">
+            🇬🇧 Escuchar Inglés
+          </button>
+          <button class="btn-tool btn-slow" onclick="speakEnglishWord(0.45)">
+            🐢 Modo Tortuga
+          </button>
+          <button class="btn-tool btn-help" onclick="toggleHelp()">
+            💡 ¡Explicación y Pista!
+          </button>
         </div>
 
-        <div class="progress-container">
-            <div class="progress-bar" id="progress-bar"></div>
+        <div class="input-group">
+          <input
+            type="text"
+            id="user-input"
+            class="answer-input"
+            placeholder="Escribe tu respuesta aquí..."
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <div class="btn-row">
+            <button class="btn-submit" onclick="checkAnswer()">
+              ✅ Comprobar
+            </button>
+            <button class="btn-skip" onclick="skipQuestion()">⏭️ Saltar</button>
+          </div>
         </div>
 
-        <!-- ESCENARIO DEL MUÑECO 3D -->
-        <div class="mascot-stage">
-            <div class="robot-3d" id="robo-teacher" onclick="robotSalute()" title="¡Hazme clic!">
-                <div class="robot-antenna"></div>
-                <div class="robot-ear left"></div>
-                <div class="robot-ear right"></div>
-                <div class="robot-head">
-                    <div class="robot-screen">
-                        <div class="eyes-row">
-                            <div class="eye"></div>
-                            <div class="eye"></div>
-                        </div>
-                        <div class="mouth">
-                            <div class="mouth-bar"></div>
-                            <div class="mouth-bar"></div>
-                            <div class="mouth-bar"></div>
-                            <div class="mouth-bar"></div>
-                            <div class="mouth-bar"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div class="feedback-msg" id="feedback"></div>
+      </div>
 
-        <!-- BOCADILLO DE AYUDA (Se abre al pedir pista) -->
-        <div class="help-bubble" id="help-bubble">
-            <div class="help-title">
-                <span>🤖 Pista de Robo-Teacher:</span>
-                <button class="btn-tool btn-letter" onclick="repeatHintVoice()">🔊 Repetir explicación</button>
-            </div>
-            <p class="help-text" id="help-explanation"></p>
-            <div class="help-example" id="help-example"></div>
-            <div class="help-actions">
-                <button class="btn-tool btn-letter" onclick="revealNextLetter()">🔍 Dame una letra (<span id="letters-left"></span>)</button>
-            </div>
-        </div>
-
-        <!-- TARJETA DE PREGUNTA -->
-        <div class="question-card" id="quiz-box">
-            <span class="category-tag" id="q-category">Categoría</span>
-            <div class="emoji-visual" id="q-emoji">🦁</div>
-            <h2 class="question-text" id="q-text">¿Cómo se escribe...?</h2>
-
-            <!-- Controles de Voz y Ayuda -->
-            <div class="audio-controls">
-                <button class="btn-tool btn-listen" onclick="speakEnglishWord(0.9)">
-                    🇬🇧 Escuchar en Inglés
-                </button>
-                <button class="btn-tool btn-slow" onclick="speakEnglishWord(0.45)">
-                    🐢 Escuchar Lento
-                </button>
-                <button class="btn-tool btn-help" onclick="toggleHelp()">
-                    💡 ¡Necesito Ayuda!
-                </button>
-            </div>
-
-            <!-- Input del niño -->
-            <div class="input-group">
-                <input type="text" id="user-input" class="answer-input" placeholder="Escribe aquí en inglés..." autocomplete="off" autocorrect="off" spellcheck="false">
-                <button class="btn-submit" onclick="checkAnswer()">✅ Comprobar Respuesta</button>
-            </div>
-
-            <div class="feedback-msg" id="feedback"></div>
-        </div>
+      <!-- Pie de página con número de versión -->
+      <div class="version-footer">
+        <span
+          >🤖 English Quest —
+          <strong
+            >Versión <span id="version-footer-text">2.10</span></strong
+          ></span
+        >
+        <span>•</span>
+        <span>Repaso Examen 28 Oct</span>
+      </div>
     </div>
 
     <script>
-        // =====================================================
-        // BANCO DE PREGUNTAS CON EXPLICACIONES Y EJEMPLOS
-        // =====================================================
-        const questions = [
-            // DÍAS DE LA SEMANA
-            {
-                category: "Days of the Week",
-                emoji: "📅",
-                question: "¿Cómo se escribe MIÉRCOLES en inglés?",
-                answer: "wednesday",
-                hint: "¡Cuidado con esta palabra! Es tramposa porque lleva una letra 'D' muda en medio que no suena al hablar. Empieza por W-E-D.",
-                example: "Ejemplo: 'On Wednesday I have English class' (El miércoles tengo clase de inglés)."
-            },
-            {
-                category: "Days of the Week",
-                emoji: "🎉",
-                question: "¿Cómo se escribe JUEVES en inglés?",
-                answer: "thursday",
-                hint: "No lo confundas con el martes (Tuesday). El jueves empieza con 'T-H-U-R', como el dios del trueno Thor.",
-                example: "Ejemplo: 'Thursday comes after Wednesday' (El jueves va después del miércoles)."
-            },
-            {
-                category: "Days of the Week",
-                emoji: "☀️",
-                question: "¿Cómo se escribe SÁBADO en inglés?",
-                answer: "saturday",
-                hint: "Es muy parecido al planeta Saturno (Saturn) más la palabra día (day): Sat-ur-day.",
-                example: "Ejemplo: 'I play football on Saturday' (Juego al fútbol el sábado)."
-            },
-            // NÚMEROS DEL 1 AL 20
-            {
-                category: "Numbers 1-20",
-                emoji: "1️⃣2️⃣",
-                question: "Escribe con letras el número 12 en inglés:",
-                answer: "twelve",
-                hint: "Recuerda que el 12 es especial, no termina en 'teen'. Empieza por 'T-W' y termina en 'L-V-E'.",
-                example: "Ejemplo: 'There are twelve months in a year' (Hay doce meses en un año)."
-            },
-            {
-                category: "Numbers 1-20",
-                emoji: "1️⃣5️⃣",
-                question: "Escribe con letras el número 15 en inglés:",
-                answer: "fifteen",
-                hint: "¡Atención! No se escribe 'fiveteen'. Cambiamos la V por una F: 'F-I-F' y luego añadimos 'T-E-E-N'.",
-                example: "Ejemplo: 'Ten plus five is fifteen' (Diez más cinco son quince)."
-            },
-            {
-                category: "Numbers 1-20",
-                emoji: "2️⃣0️⃣",
-                question: "Escribe con letras el número 20 en inglés:",
-                answer: "twenty",
-                hint: "Empieza igual que el doce con 'T-W-E-N' y termina en 'T-Y'.",
-                example: "Ejemplo: 'I have twenty fingers and toes' (Tengo veinte dedos entre manos y pies)."
-            },
-            // ANIMALES Y CARACTERÍSTICAS
-            {
-                category: "Animals",
-                emoji: "🐊",
-                question: "¿Cómo se escribe COCODRILO en inglés?",
-                answer: "crocodile",
-                hint: "En español decimos 'coco...', pero en inglés la R va antes de la O: empieza por 'C-R-O-C-O' y termina en 'D-I-L-E'.",
-                example: "Ejemplo: 'The crocodile has big teeth and a long tail' (El cocodrilo tiene dientes grandes y cola larga)."
-            },
-            {
-                category: "Animals",
-                emoji: "🦒",
-                question: "¿Cómo se escribe JIRAFA en inglés?",
-                answer: "giraffe",
-                hint: "En inglés se escribe con 'G' al principio y lleva DOS efes (FF) al final.",
-                example: "Ejemplo: 'The giraffe has a very long neck' (La jirafa tiene el cuello muy largo)."
-            },
-            {
-                category: "Animal Features",
-                emoji: "🪶",
-                question: "Los pájaros tienen PLUMAS. ¿Cómo se escribe 'plumas' en inglés?",
-                answer: "feathers",
-                hint: "Empieza por 'F-E-A', luego lleva 'T-H' (que suena como una Z suave) y termina en 'E-R-S'.",
-                example: "Ejemplo: 'Parrots have colourful feathers' (Los loros tienen plumas coloridas)."
-            },
-            {
-                category: "Animal Features",
-                emoji: " хвост / 🐕",
-                question: "El perro mueve la COLA. ¿Cómo se dice 'cola' de animal en inglés?",
-                answer: "tail",
-                hint: "Es una palabra cortita de 4 letras. Empieza por 'T', lleva 'A-I' en medio y termina en 'L'.",
-                example: "Ejemplo: 'The monkey has a long tail' (El mono tiene una cola larga)."
-            },
-            // CARACTERÍSTICAS / EMOCIONES / UNIDADES 1-5
-            {
-                category: "Adjectives & Feelings",
-                emoji: "🍽️😋",
-                question: "¿Cómo se dice HAMBRIENTO (tener hambre) en inglés?",
-                answer: "hungry",
-                hint: "No lo confundas con enfadado (angry). Hambriento empieza con 'H' aspirada y 'U': H-U-N-G-R-Y.",
-                example: "Ejemplo: 'I am hungry, I want pizza!' (Tengo hambre, ¡quiero pizza!)."
-            },
-            {
-                category: "Adjectives & Feelings",
-                emoji: "💧🥵",
-                question: "¿Cómo se dice SEDIENTO (tener sed) en inglés?",
-                answer: "thirsty",
-                hint: "Empieza igual que jueves con 'T-H', pero seguido de 'I-R-S-T-Y'.",
-                example: "Ejemplo: 'She is thirsty, she needs water' (Ella tiene sed, necesita agua)."
-            },
-            {
-                category: "Units 1-5 Grammar",
-                emoji: "🏊‍♂️",
-                question: "Completa la frase: 'A fish ___ swim' (Un pez PUEDE nadar)",
-                answer: "can",
-                hint: "Para decir que un animal o persona SABE o PUEDE hacer algo, usamos un verbo modal de 3 letras que empieza por C.",
-                example: "Ejemplo: 'A bird can fly, but a dog can't fly' (Un pájaro puede volar, pero un perro no)."
-            }
-        ];
+      // =====================================================
+      // CONTROL DE VERSIÓN (Cambia este número cuando actualices)
+      // =====================================================
+      const APP_VERSION = "2.10";
 
-        let currentIndex = 0;
-        let score = 0;
-        let revealedLetters = 0;
-        const robot = document.getElementById('robo-teacher');
-        const inputField = document.getElementById('user-input');
+      document.getElementById("version-badge-text").textContent =
+        `v${APP_VERSION}`;
+      document.getElementById("version-footer-text").textContent = APP_VERSION;
+      document.getElementById("page-title").textContent =
+        `English Quest v${APP_VERSION} - Examen 28 Octubre`;
 
-        // Permitir pulsar Enter para comprobar
-        inputField.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') checkAnswer();
-        });
+      function announceVersion() {
+        robotSpeak(
+          `Estás jugando en la versión ${APP_VERSION} actualizada con Robo-Teacher 3D.`,
+          "es-ES",
+          1.05,
+        );
+      }
 
-        // =====================================================
-        // MOTOR DE VOZ DEL ROBOT (WEB SPEECH API)
-        // =====================================================
-        function robotSpeak(text, lang = 'es-ES', rate = 1.0) {
-            if (!('speechSynthesis' in window)) return;
+      // =====================================================
+      // BANCO COMPLETO DE 52 PREGUNTAS
+      // =====================================================
+      const allQuestions = [
+        // --- 1. LOS 7 DÍAS DE LA SEMANA (TODOS) ---
+        {
+          mod: "DAYS",
+          category: "Days of the Week (1/7)",
+          emoji: "🌙",
+          question: "¿Cómo se escribe LUNES en inglés?",
+          answer: "monday",
+          hint: "Empieza con M-O-N (como Moon, luna) y termina en D-A-Y.",
+          example:
+            "Ejemplo: 'Monday is the first day of school' (El lunes es el primer día de cole).",
+        },
+        {
+          mod: "DAYS",
+          category: "Days of the Week (2/7)",
+          emoji: "🦖",
+          question: "¿Cómo se escribe MARTES en inglés?",
+          answer: "tuesday",
+          hint: "Empieza por T-U-E-S y termina en D-A-Y. ¡No lo confundas con el jueves!",
+          example:
+            "Ejemplo: 'On Tuesday I play with my friends' (El martes juego con mis amigos).",
+        },
+        {
+          mod: "DAYS",
+          category: "Days of the Week (3/7)",
+          emoji: "🐪",
+          question: "¿Cómo se escribe MIÉRCOLES en inglés?",
+          answer: "wednesday",
+          hint: "¡Palabra tramposa! Lleva una 'D' muda que no suena: W-E-D-N-E-S-D-A-Y.",
+          example:
+            "Ejemplo: 'Wednesday is in the middle of the week' (El miércoles está en mitad de la semana).",
+        },
+        {
+          mod: "DAYS",
+          category: "Days of the Week (4/7)",
+          emoji: "⚡",
+          question: "¿Cómo se escribe JUEVES en inglés?",
+          answer: "thursday",
+          hint: "Empieza con T-H-U-R (como el dios Thor) y termina en S-D-A-Y.",
+          example:
+            "Ejemplo: 'Thursday comes after Wednesday' (El jueves va después del miércoles).",
+        },
+        {
+          mod: "DAYS",
+          category: "Days of the Week (5/7)",
+          emoji: "🎉",
+          question: "¿Cómo se escribe VIERNES en inglés?",
+          answer: "friday",
+          hint: "Es muy fácil: empieza con F-R-I y termina en D-A-Y.",
+          example: "Ejemplo: 'I love Friday!' (¡Me encanta el viernes!).",
+        },
+        {
+          mod: "DAYS",
+          category: "Days of the Week (6/7)",
+          emoji: "🪐",
+          question: "¿Cómo se escribe SÁBADO en inglés?",
+          answer: "saturday",
+          hint: "Viene de Saturno: empieza con S-A-T-U-R y termina en D-A-Y.",
+          example:
+            "Ejemplo: 'No school on Saturday!' (¡No hay cole el sábado!).",
+        },
+        {
+          mod: "DAYS",
+          category: "Days of the Week (7/7)",
+          emoji: "☀️",
+          question: "¿Cómo se escribe DOMINGO en inglés?",
+          answer: "sunday",
+          hint: "Es el día del Sol (Sun): se escribe S-U-N-D-A-Y.",
+          example:
+            "Ejemplo: 'Sunday is a family day' (El domingo es día de familia).",
+        },
 
-            // Cancelar cualquier audio anterior
-            window.speechSynthesis.cancel();
+        // --- 2. TODOS LOS NÚMEROS DEL 1 AL 20 ---
+        {
+          mod: "NUMBERS",
+          category: "Numbers 1-20",
+          emoji: "1️⃣",
+          question: "Escribe con letras el número 1:",
+          answer: "one",
+          hint: "Aunque suena 'uan', se escribe con O: O-N-E.",
+          example: "Ejemplo: 'I have got one nose' (Tengo una nariz).",
+        },
+        {
+          mod: "NUMBERS",
+          category: "Numbers 1-20",
+          emoji: "2️⃣",
+          question: "Escribe con letras el número 2:",
+          answer: "two",
+          hint: "Tiene una W en medio que no suena: T-W-O.",
+          example: "Ejemplo: 'Two eyes and two ears' (Dos ojos y dos orejas).",
+        },
+        {
+          mod: "NUMBERS",
+          category: "Numbers 1-20",
+          emoji: "3️⃣",
+          question: "Escribe con letras el número 3:",
+          answer: "three",
+          hint: "Empieza con T-H-R y termina con dos letras E: E-E.",
+          example: "Ejemplo: 'One, two, three, go!' (¡Uno, dos, tres, ya!).",
+        },
+        {
+          mod: "NUMBERS",
+          category: "Numbers 1-20",
+          emoji: "4️⃣",
+          question: "Escribe con letras el número 4:",
+          answer: "four",
+          hint: "Lleva una O y una U en medio: F-O-U-R.",
+          example:
+            "Ejemplo: 'A dog has got four legs' (Un perro tiene cuatro patas).",
+        },
+        {
+          mod: "NUMBERS",
+          category: "Numbers 1-20",
+          emoji: "5️⃣",
+          question: "Escribe con letras el número 5:",
+          answer: "five",
+          hint: "Se escribe con V y termina en E muda: F-I-V-E.",
+          example: "Ejemplo: 'High five!' (¡Choca esos cinco!).",
+        },
+        {
+          mod: "NUMBERS",
+          category: "Numbers 1-20",
+          emoji: "6️⃣",
+          question: "Escribe con letras el número 6:",
+          answer: "six",
+          hint: "Súper cortito, solo 3 letras y termina en X: S-I-X.",
+          example:
+            "Ejemplo: 'An insect has got six legs' (Un insecto tiene seis patas).",
+        },
+        {
+          mod: "NUMBERS",
+          category: "Numbers 1-20",
+          emoji: "7️⃣",
+          question: "Escribe con letras el número 7:",
+          answer: "seven",
+          hint: "Se escribe con V en medio: S-E-V-E-N.",
+          example:
+            "Ejemplo: 'There are seven days in a week' (Hay siete días en una semana).",
+        },
+        {
+          mod: "NUMBERS",
+          category: "Numbers 1-20",
+          emoji: "8️⃣",
+          question: "Escribe con letras el número 8:",
+          answer: "eight",
+          hint: "¡Cuidado con el 8! Empieza por E-I y luego lleva G-H-T mudas.",
+          example:
+            "Ejemplo: 'A spider has got eight legs' (Una araña tiene ocho patas).",
+        },
+        {
+          mod: "NUMBERS",
+          category: "Numbers 1-20",
+          emoji: "9️⃣",
+          question: "Escribe con letras el número 9:",
+          answer: "nine",
+          hint: "Empieza y tiene dos N: N-I-N-E.",
+          example: "Ejemplo: 'I am nine years old' (Tengo nueve años).",
+        },
+        {
+          mod: "NUMBERS",
+          category: "Numbers 1-20",
+          emoji: "🔟",
+          question: "Escribe con letras el número 10:",
+          answer: "ten",
+          hint: "Muy fácil, tal como suena con 3 letras: T-E-N.",
+          example: "Ejemplo: 'Ten fingers' (Diez dedos).",
+        },
+        {
+          mod: "NUMBERS",
+          category: "Numbers 1-20",
+          emoji: "1️⃣1️⃣",
+          question: "Escribe con letras el número 11:",
+          answer: "eleven",
+          hint: "Lleva tres letras E y una V: E-L-E-V-E-N.",
+          example:
+            "Ejemplo: 'Eleven players in a football team' (Once jugadores en un equipo).",
+        },
+        {
+          mod: "NUMBERS",
+          category: "Numbers 1-20",
+          emoji: "1️⃣2️⃣",
+          question: "Escribe con letras el número 12:",
+          answer: "twelve",
+          hint: "Empieza con T-W-E-L y termina en V-E.",
+          example: "Ejemplo: 'Twelve months in a year' (Doce meses en un año).",
+        },
+        {
+          mod: "NUMBERS",
+          category: "Numbers 1-20",
+          emoji: "1️⃣3️⃣",
+          question: "Escribe con letras el número 13:",
+          answer: "thirteen",
+          hint: "Del 13 al 19 todos terminan en 'TEEN'. El 13 empieza con T-H-I-R.",
+          example:
+            "Ejemplo: 'Thirteen comes after twelve' (El trece va después del doce).",
+        },
+        {
+          mod: "NUMBERS",
+          category: "Numbers 1-20",
+          emoji: "1️⃣4️⃣",
+          question: "Escribe con letras el número 14:",
+          answer: "fourteen",
+          hint: "Es el número 4 (FOUR) más la terminación TEEN: F-O-U-R-T-E-E-N.",
+          example:
+            "Ejemplo: 'Ten plus four is fourteen' (Diez más cuatro son catorce).",
+        },
+        {
+          mod: "NUMBERS",
+          category: "Numbers 1-20",
+          emoji: "1️⃣5️⃣",
+          question: "Escribe con letras el número 15:",
+          answer: "fifteen",
+          hint: "¡Ojo! No se pone 'fiveteen', se cambia por FIF: F-I-F-T-E-E-N.",
+          example: "Ejemplo: 'Fifteen minutes' (Quince minutos).",
+        },
+        {
+          mod: "NUMBERS",
+          category: "Numbers 1-20",
+          emoji: "1️⃣6️⃣",
+          question: "Escribe con letras el número 16:",
+          answer: "sixteen",
+          hint: "Muy fácil: el 6 (SIX) más TEEN: S-I-X-T-E-E-N.",
+          example: "Ejemplo: 'Sixteen candles' (Dieciséis velas).",
+        },
+        {
+          mod: "NUMBERS",
+          category: "Numbers 1-20",
+          emoji: "1️⃣7️⃣",
+          question: "Escribe con letras el número 17:",
+          answer: "seventeen",
+          hint: "Es el 7 (SEVEN) más TEEN: S-E-V-E-N-T-E-E-N.",
+          example: "Ejemplo: 'Seventeen books' (Diecisiete libros).",
+        },
+        {
+          mod: "NUMBERS",
+          category: "Numbers 1-20",
+          emoji: "1️⃣8️⃣",
+          question: "Escribe con letras el número 18:",
+          answer: "eighteen",
+          hint: "Es el 8 (EIGHT) más EEN (¡solo lleva una T en medio!): E-I-G-H-T-E-E-N.",
+          example: "Ejemplo: 'Eighteen pencils' (Dieciocho lápices).",
+        },
+        {
+          mod: "NUMBERS",
+          category: "Numbers 1-20",
+          emoji: "1️⃣9️⃣",
+          question: "Escribe con letras el número 19:",
+          answer: "nineteen",
+          hint: "Es el 9 (NINE) más TEEN: N-I-N-E-T-E-E-N.",
+          example: "Ejemplo: 'Nineteen points' (Diecinueve puntos).",
+        },
+        {
+          mod: "NUMBERS",
+          category: "Numbers 1-20",
+          emoji: "2️⃣0️⃣",
+          question: "Escribe con letras el número 20:",
+          answer: "twenty",
+          hint: "Empieza con T-W-E-N y termina en T-Y.",
+          example: "Ejemplo: 'Twenty questions!' (¡Veinte preguntas!).",
+        },
 
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = lang;
-            utterance.rate = rate;
-            utterance.pitch = lang.startsWith('es') ? 1.15 : 1.05; // Un toque simpático de robot
+        // --- 3. ANIMALES Y SUS CARACTERÍSTICAS (PARTES DEL CUERPO) ---
+        {
+          mod: "ANIMALS",
+          category: "Animals",
+          emoji: "🐊",
+          question: "¿Cómo se escribe COCODRILO en inglés?",
+          answer: "crocodile",
+          hint: "Empieza con C-R-O-C-O y termina en D-I-L-E.",
+          example:
+            "Ejemplo: 'It is a green crocodile' (Es un cocodrilo verde).",
+        },
+        {
+          mod: "ANIMALS",
+          category: "Animals",
+          emoji: "🦒",
+          question: "¿Cómo se escribe JIRAFA en inglés?",
+          answer: "giraffe",
+          hint: "Empieza con G-I-R-A y lleva dos F al final: F-F-E.",
+          example:
+            "Ejemplo: 'The giraffe is very tall' (La jirafa es muy alta).",
+        },
+        {
+          mod: "ANIMALS",
+          category: "Animals",
+          emoji: "🐘",
+          question: "¿Cómo se escribe ELEFANTE en inglés?",
+          answer: "elephant",
+          hint: "En inglés la F se escribe con P-H: E-L-E-P-H-A-N-T.",
+          example:
+            "Ejemplo: 'An elephant has got big ears' (Un elefante tiene orejas grandes).",
+        },
+        {
+          mod: "ANIMALS",
+          category: "Animals",
+          emoji: "🐒",
+          question: "¿Cómo se escribe MONO en inglés?",
+          answer: "monkey",
+          hint: "Empieza con M-O-N-K y termina en E-Y.",
+          example:
+            "Ejemplo: 'The monkey can climb trees' (El mono puede trepar árboles).",
+        },
+        {
+          mod: "ANIMALS",
+          category: "Animals",
+          emoji: "🐍",
+          question: "¿Cómo se escribe SERPIENTE en inglés?",
+          answer: "snake",
+          hint: "Empieza directamente con S-N (sin E delante): S-N-A-K-E.",
+          example:
+            "Ejemplo: 'A snake hasn't got legs' (Una serpiente no tiene patas).",
+        },
+        {
+          mod: "ANIMALS",
+          category: "Animals",
+          emoji: "🦜",
+          question: "¿Cómo se escribe LORO en inglés?",
+          answer: "parrot",
+          hint: "Lleva dos R en medio: P-A-R-R-O-T.",
+          example:
+            "Ejemplo: 'The parrot can fly and talk' (El loro puede volar y hablar).",
+        },
+        {
+          mod: "ANIMALS",
+          category: "Animal Body Parts",
+          emoji: "🪶",
+          question: "Los pájaros tienen PLUMAS. ¿Cómo se escribe 'plumas'?",
+          answer: "feathers",
+          hint: "Empieza con F-E-A, sigue con T-H y termina en E-R-S.",
+          example:
+            "Ejemplo: 'It has got colourful feathers' (Tiene plumas de colores).",
+        },
+        {
+          mod: "ANIMALS",
+          category: "Animal Body Parts",
+          emoji: "🪽",
+          question:
+            "Para volar, los pájaros usan sus ALAS. ¿Cómo se escribe 'alas'?",
+          answer: "wings",
+          hint: "Empieza con W-I-N-G y añade una S al final para el plural: W-I-N-G-S.",
+          example:
+            "Ejemplo: 'A bird has got two wings' (Un pájaro tiene dos alas).",
+        },
+        {
+          mod: "ANIMALS",
+          category: "Animal Body Parts",
+          emoji: "🐕",
+          question: "¿Cómo se escribe COLA (de animal) en inglés?",
+          answer: "tail",
+          hint: "Cuatro letras: T-A-I-L.",
+          example: "Ejemplo: 'It has got a long tail' (Tiene una cola larga).",
+        },
+        {
+          mod: "ANIMALS",
+          category: "Animal Body Parts",
+          emoji: "🐟",
+          question:
+            "Los peces y reptiles tienen ESCAMAS. ¿Cómo se escribe 'escamas'?",
+          answer: "scales",
+          hint: "Empieza por S-C-A-L-E-S.",
+          example: "Ejemplo: 'A fish has got scales' (Un pez tiene escamas).",
+        },
+        {
+          mod: "ANIMALS",
+          category: "Animal Body Parts",
+          emoji: "🐻",
+          question:
+            "Los osos y leones tienen PELAJE. ¿Cómo se escribe 'pelaje' (de 3 letras)?",
+          answer: "fur",
+          hint: "Solo tiene 3 letras: empieza por F, sigue con U y termina en R.",
+          example:
+            "Ejemplo: 'A bear has got brown fur' (Un oso tiene pelaje marrón).",
+        },
+        {
+          mod: "ANIMALS",
+          category: "Animal Body Parts",
+          emoji: "🦷",
+          question:
+            "El cocodrilo tiene muchos DIENTES. ¿Cómo se escribe 'dientes' en plural?",
+          answer: "teeth",
+          hint: "Con doble E en medio y T-H al final: T-E-E-T-H.",
+          example:
+            "Ejemplo: 'It has got sharp teeth' (Tiene dientes afilados).",
+        },
+        {
+          mod: "ANIMALS",
+          category: "Animal Body Parts",
+          emoji: "🦒",
+          question:
+            "La jirafa tiene el CUELLO largo. ¿Cómo se escribe 'cuello'?",
+          answer: "neck",
+          hint: "Termina en C-K: N-E-C-K.",
+          example: "Ejemplo: 'It has got a long neck' (Tiene un cuello largo).",
+        },
 
-            // Activar animación de la boca en 3D
-            utterance.onstart = () => robot.classList.add('speaking');
-            utterance.onend = () => robot.classList.remove('speaking');
-            utterance.onerror = () => robot.classList.remove('speaking');
+        // --- 4. GRAMÁTICA: IT IS / IT HAS GOT / IT CAN / ADJETIVOS ---
+        {
+          mod: "GRAMMAR",
+          category: "Grammar: It is / It has got",
+          emoji: "🦁",
+          question:
+            "Para decir 'ES grande' (describir cómo es), ¿qué usamos?: '___ big'",
+          answer: "it is",
+          chips: ["It is", "It has got", "It can"],
+          hint: "'It is' significa 'Es' o 'Está'. Lo usamos para decir el tamaño (big/small), el color (green) o qué animal es.",
+          example: "Ejemplo: 'It is big and yellow' (Es grande y amarillo).",
+        },
+        {
+          mod: "GRAMMAR",
+          category: "Grammar: It is / It has got",
+          emoji: "🐊",
+          question:
+            "Para decir 'TIENE una cola larga', ¿qué usamos?: '___ a long tail'",
+          answer: "it has got",
+          chips: ["It is", "It has got", "It can"],
+          hint: "'It has got' significa 'Tiene'. Lo usamos siempre para las partes del cuerpo del animal (patas, cola, alas, dientes).",
+          example:
+            "Ejemplo: 'It has got four legs and a tail' (Tiene cuatro patas y una cola).",
+        },
+        {
+          mod: "GRAMMAR",
+          category: "Grammar: It is / It has got",
+          emoji: "🐍",
+          question:
+            "La serpiente NO TIENE patas. ¿Cómo completamos?: 'It ___ got legs'",
+          answer: "hasn't",
+          chips: ["hasn't", "isn't", "can't"],
+          hint: "Para decir que NO tiene algo, usamos 'hasn't' delante de 'got' (It hasn't got).",
+          example:
+            "Ejemplo: 'A snake hasn't got legs' (Una serpiente no tiene patas).",
+        },
+        {
+          mod: "GRAMMAR",
+          category: "Grammar: It can / It can't",
+          emoji: "🦜",
+          question: "Para decir que el loro PUEDE volar, escribimos: '___ fly'",
+          answer: "it can",
+          chips: ["It is", "It has got", "It can"],
+          hint: "'It can' significa 'Puede' y va seguido de una acción o verbo (fly, swim, run, jump, climb).",
+          example: "Ejemplo: 'It can fly very fast' (Puede volar muy rápido).",
+        },
+        {
+          mod: "GRAMMAR",
+          category: "Grammar: It can / It can't",
+          emoji: "🐧",
+          question: "Un pingüino NO PUEDE volar. Completa: 'A penguin ___ fly'",
+          answer: "can't",
+          chips: ["can", "can't", "hasn't"],
+          hint: "Para decir que NO PUEDE hacer una acción, usamos CAN'T (con apóstrofe y T).",
+          example:
+            "Ejemplo: 'A penguin can swim, but it can't fly' (Puede nadar, pero no puede volar).",
+        },
+        {
+          mod: "GRAMMAR",
+          category: "Grammar: It is / It has got",
+          emoji: "🐘",
+          question:
+            "Completa la frase sobre el elefante: '___ big ears' (Tiene orejas grandes)",
+          answer: "it has got",
+          chips: ["It is", "It has got", "It can"],
+          hint: "Como hablamos de partes del cuerpo que TIENE (orejas grandes), usamos 'It has got'.",
+          example:
+            "Ejemplo: 'It has got big ears and a long trunk' (Tiene orejas grandes y trompa larga).",
+        },
+        {
+          mod: "GRAMMAR",
+          category: "Grammar: It is / It has got",
+          emoji: "🐸",
+          question:
+            "Completa sobre la rana: '___ small and green' (Es pequeña y verde)",
+          answer: "it is",
+          chips: ["It is", "It has got", "It can"],
+          hint: "Como decimos cómo ES (pequeña y verde), usamos 'It is'.",
+          example:
+            "Ejemplo: 'It is small and green. It can jump!' (Es pequeña y verde. ¡Puede saltar!).",
+        },
+        {
+          mod: "GRAMMAR",
+          category: "Actions & Verbs",
+          emoji: "🦘",
+          question:
+            "El canguro puede SALTAR. ¿Cómo se escribe 'saltar' en inglés?",
+          answer: "jump",
+          hint: "Empieza con J-U y termina en M-P.",
+          example: "Ejemplo: 'A kangaroo can jump' (Un canguro puede saltar).",
+        },
+        {
+          mod: "GRAMMAR",
+          category: "Actions & Verbs",
+          emoji: "🏊",
+          question: "El pez puede NADAR. ¿Cómo se escribe 'nadar' en inglés?",
+          answer: "swim",
+          hint: "Empieza con S-W y termina en I-M.",
+          example: "Ejemplo: 'A fish can swim' (Un pez puede nadar).",
+        },
+        {
+          mod: "GRAMMAR",
+          category: "Actions & Verbs",
+          emoji: "🧗",
+          question:
+            "El mono puede TREPAR a los árboles. ¿Cómo se escribe 'trepar'?",
+          answer: "climb",
+          hint: "¡Cuidado! Termina en una letra B muda que no se pronuncia: C-L-I-M-B.",
+          example:
+            "Ejemplo: 'A monkey can climb trees' (Un mono puede trepar árboles).",
+        },
+        {
+          mod: "GRAMMAR",
+          category: "Feelings (Units 1-5)",
+          emoji: "🍕😋",
+          question: "¿Cómo se escribe HAMBRIENTO (tener hambre) en inglés?",
+          answer: "hungry",
+          hint: "Empieza con H-U-N-G-R-Y.",
+          example: "Ejemplo: 'I am hungry!' (¡Tengo hambre!).",
+        },
+        {
+          mod: "GRAMMAR",
+          category: "Feelings (Units 1-5)",
+          emoji: "💧🥵",
+          question: "¿Cómo se escribe SEDIENTO (tener sed) en inglés?",
+          answer: "thirsty",
+          hint: "Empieza con T-H-I-R-S-T-Y.",
+          example:
+            "Ejemplo: 'I am thirsty, water please!' (¡Tengo sed, agua por favor!).",
+        },
+      ];
 
-            window.speechSynthesis.speak(utterance);
+      let activeQuestions = [...allQuestions];
+      let currentIndex = 0;
+      let score = 0;
+      let revealedLetters = 0;
+      const robot = document.getElementById("robo-teacher");
+      const inputField = document.getElementById("user-input");
+
+      inputField.addEventListener("keypress", function (e) {
+        if (e.key === "Enter") checkAnswer();
+      });
+
+      function filterCategory(modName, btnElement) {
+        document
+          .querySelectorAll(".mod-btn")
+          .forEach((b) => b.classList.remove("active"));
+        btnElement.classList.add("active");
+
+        if (modName === "ALL") {
+          activeQuestions = [...allQuestions];
+        } else {
+          activeQuestions = allQuestions.filter((q) => q.mod === modName);
         }
-
-        // Pronunciar la respuesta en inglés (Botones Listen y Tortuga)
-        function speakEnglishWord(speedRate) {
-            const word = questions[currentIndex].answer;
-            robotSpeak(word, 'en-GB', speedRate);
-        }
-
-        // Saludo al tocar al robot
-        function robotSalute() {
-            robotSpeak("¡Hola campeón! Si necesitas ayuda con una palabra, pulsa el botón amarillo de pista o el botón azul para escuchar cómo se pronuncia en inglés.", 'es-ES', 1.05);
-        }
-
-        // =====================================================
-        // LÓGICA DEL JUEGO Y AYUDAS
-        // =====================================================
-        function loadQuestion() {
-            const q = questions[currentIndex];
-            revealedLetters = 0;
-
-            document.getElementById('current-q').textContent = currentIndex + 1;
-            document.getElementById('total-q').textContent = questions.length;
-            document.getElementById('q-category').textContent = q.category;
-            document.getElementById('q-emoji').textContent = q.emoji;
-            document.getElementById('q-text').textContent = q.question;
-            document.getElementById('feedback').textContent = "";
-            inputField.value = "";
-            inputField.focus();
-
-            // Ocultar burbuja de ayuda al cambiar de pregunta
-            document.getElementById('help-bubble').style.display = 'none';
-            robot.className = 'robot-3d';
-
-            // Actualizar barra de progreso
-            const progress = (currentIndex / questions.length) * 100;
-            document.getElementById('progress-bar').style.width = `${progress}%`;
-        }
-
-        // Mostrar explicación y leerla en voz alta
-        function toggleHelp() {
-            const q = questions[currentIndex];
-            const bubble = document.getElementById('help-bubble');
-
-            document.getElementById('help-explanation').textContent = q.hint;
-            document.getElementById('help-example').textContent = q.example;
-            document.getElementById('letters-left').textContent = `${q.answer.length} letras`;
-
-            bubble.style.display = 'block';
-            robot.className = 'robot-3d thinking';
-
-            // El robot lee la explicación en español
-            robotSpeak(q.hint, 'es-ES', 1.0);
-        }
-
-        function repeatHintVoice() {
-            const q = questions[currentIndex];
-            robotSpeak(q.hint + ". " + q.example, 'es-ES', 1.0);
-        }
-
-        // Revelar siguiente letra como ayuda extra
-        function revealNextLetter() {
-            const targetWord = questions[currentIndex].answer;
-            if (revealedLetters < targetWord.length) {
-                revealedLetters++;
-                const partial = targetWord.substring(0, revealedLetters);
-                inputField.value = partial;
-                inputField.focus();
-                robotSpeak(`Empieza por: ${partial.split('').join(' ')}`, 'es-ES', 0.95);
-            }
-        }
-
-        // Comprobar respuesta
-        function checkAnswer() {
-            const userText = inputField.value.trim().toLowerCase();
-            const correctText = questions[currentIndex].answer.toLowerCase();
-            const feedback = document.getElementById('feedback');
-
-            if (!userText) return;
-
-            if (userText === correctText) {
-                score += 10;
-                document.getElementById('score').textContent = score;
-                feedback.style.color = "#4ade80";
-                feedback.textContent = "🎉 ¡Brutal! ¡Respuesta correcta!";
-                robot.className = 'robot-3d happy';
-
-                // El robot felicita y pronuncia la palabra en inglés
-                robotSpeak("¡Muy bien! " + correctText, 'en-GB', 1.0);
-
-                setTimeout(() => {
-                    currentIndex++;
-                    if (currentIndex < questions.length) {
-                        loadQuestion();
-                    } else {
-                        showVictory();
-                    }
-                }, 1800);
-            } else {
-                feedback.style.color = "#f87171";
-                feedback.textContent = "❌ ¡Casi! Revisa las letras o pide una pista al robot 💡";
-                robot.className = 'robot-3d oops';
-                robotSpeak("¡Uy, casi! Pulsa el botón de ayuda si necesitas una pista.", 'es-ES', 1.05);
-            }
-        }
-
-        function showVictory() {
-            document.getElementById('progress-bar').style.width = '100%';
-            document.getElementById('help-bubble').style.display = 'none';
-            robot.className = 'robot-3d happy';
-            
-            document.getElementById('quiz-box').innerHTML = `
-                <div class="emoji-visual">🏆🎉</div>
-                <h2 class="question-text">¡Misión Completada!</h2>
-                <p style="margin-bottom: 20px; font-size: 1.1rem;">Has conseguido <strong>${score} puntos</strong> repasando para el examen del 28 de octubre.</p>
-                <button class="btn-submit" onclick="location.reload()">🔄 Jugar Otra Vez</button>
-            `;
-            robotSpeak("¡Enhorabuena! Has completado todo el entrenamiento. ¡Vas a sacar una nota genial en el examen de inglés!", 'es-ES', 1.0);
-        }
-
-        // Iniciar juego
+        currentIndex = 0;
         loadQuestion();
+      }
+
+      function robotSpeak(text, lang = "es-ES", rate = 1.0) {
+        if (!("speechSynthesis" in window)) return;
+        window.speechSynthesis.cancel();
+
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = lang;
+        utterance.rate = rate;
+        utterance.pitch = lang.startsWith("es") ? 1.15 : 1.05;
+
+        utterance.onstart = () => robot.classList.add("speaking");
+        utterance.onend = () => robot.classList.remove("speaking");
+        utterance.onerror = () => robot.classList.remove("speaking");
+
+        window.speechSynthesis.speak(utterance);
+      }
+
+      function speakEnglishWord(speedRate) {
+        const word = activeQuestions[currentIndex].answer;
+        robotSpeak(word, "en-GB", speedRate);
+      }
+
+      function robotSalute() {
+        robotSpeak(
+          `¡Hola! Soy Robo-Teacher versión ${APP_VERSION}. Puedes elegir arriba qué tema quieres practicar o pedirme pistas con el botón amarillo.`,
+          "es-ES",
+          1.05,
+        );
+      }
+
+      function loadQuestion() {
+        const q = activeQuestions[currentIndex];
+        revealedLetters = 0;
+
+        document.getElementById("current-q").textContent = currentIndex + 1;
+        document.getElementById("total-q").textContent = activeQuestions.length;
+        document.getElementById("q-category").textContent = q.category;
+        document.getElementById("q-emoji").textContent = q.emoji;
+        document.getElementById("q-text").textContent = q.question;
+        document.getElementById("feedback").textContent = "";
+        inputField.value = "";
+        inputField.focus();
+
+        const chipsContainer = document.getElementById("quick-chips");
+        chipsContainer.innerHTML = "";
+        if (q.chips) {
+          q.chips.forEach((chipText) => {
+            const btn = document.createElement("button");
+            btn.className = "chip-btn";
+            btn.textContent = chipText;
+            btn.onclick = () => {
+              inputField.value = chipText;
+              inputField.focus();
+            };
+            chipsContainer.appendChild(btn);
+          });
+        }
+
+        document.getElementById("help-bubble").style.display = "none";
+        robot.className = "robot-3d";
+
+        const progress = (currentIndex / activeQuestions.length) * 100;
+        document.getElementById("progress-bar").style.width = `${progress}%`;
+      }
+
+      function toggleHelp() {
+        const q = activeQuestions[currentIndex];
+        const bubble = document.getElementById("help-bubble");
+
+        document.getElementById("help-explanation").textContent = q.hint;
+        document.getElementById("help-example").textContent = q.example;
+        document.getElementById("letters-left").textContent =
+          `${q.answer.length} letras`;
+
+        bubble.style.display = "block";
+        robot.className = "robot-3d thinking";
+        robotSpeak(q.hint, "es-ES", 1.0);
+      }
+
+      function repeatHintVoice() {
+        const q = activeQuestions[currentIndex];
+        robotSpeak(q.hint + ". " + q.example, "es-ES", 1.0);
+      }
+
+      function revealNextLetter() {
+        const targetWord = activeQuestions[currentIndex].answer;
+        if (revealedLetters < targetWord.length) {
+          revealedLetters++;
+          const partial = targetWord.substring(0, revealedLetters);
+          inputField.value = partial;
+          inputField.focus();
+          robotSpeak(`Pista: ${partial}`, "es-ES", 0.95);
+        }
+      }
+
+      function skipQuestion() {
+        currentIndex = (currentIndex + 1) % activeQuestions.length;
+        loadQuestion();
+      }
+
+      function checkAnswer() {
+        const userText = inputField.value.trim().toLowerCase();
+        const correctText = activeQuestions[currentIndex].answer.toLowerCase();
+        const feedback = document.getElementById("feedback");
+
+        if (!userText) return;
+
+        if (userText === correctText) {
+          score += 10;
+          document.getElementById("score").textContent = score;
+          feedback.style.color = "#4ade80";
+          feedback.textContent = "🎉 ¡Genial! ¡Respuesta correcta!";
+          robot.className = "robot-3d happy";
+
+          robotSpeak(correctText, "en-GB", 1.0);
+
+          setTimeout(() => {
+            currentIndex++;
+            if (currentIndex < activeQuestions.length) {
+              loadQuestion();
+            } else {
+              showVictory();
+            }
+          }, 1500);
+        } else {
+          feedback.style.color = "#f87171";
+          feedback.textContent =
+            "❌ ¡Casi! Revisa las letras o pulsa el botón amarillo de Pista 💡";
+          robot.className = "robot-3d oops";
+          robotSpeak(
+            "¡Casi! Pídeme una pista en el botón amarillo si lo necesitas.",
+            "es-ES",
+            1.05,
+          );
+        }
+      }
+
+      function showVictory() {
+        document.getElementById("progress-bar").style.width = "100%";
+        document.getElementById("help-bubble").style.display = "none";
+        robot.className = "robot-3d happy";
+
+        document.getElementById("quiz-box").innerHTML = `
+                <div class="emoji-visual">🏆🎉</div>
+                <h2 class="question-text">¡Módulo Completado!</h2>
+                <p style="margin-bottom: 20px; font-size: 1.1rem;">Has conseguido <strong>${score} puntos</strong>. ¡Puedes elegir otro módulo arriba o volver a empezar!</p>
+                <button class="btn-submit" onclick="location.reload()">🔄 Volver a Empezar</button>
+            `;
+        robotSpeak(
+          "¡Felicidades! Has completado todas las preguntas de esta sección.",
+          "es-ES",
+          1.0,
+        );
+      }
+
+      loadQuestion();
     </script>
-</body>
+  </body>
 </html>
