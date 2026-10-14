@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title id="page-title">English Quest v2.10 - Examen 28 Octubre</title>
+    <title id="page-title">English Quest v2.11 - Examen 28 Octubre</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap"
       rel="stylesheet"
@@ -511,7 +511,6 @@
         min-height: 26px;
       }
 
-      /* --- PIE DE PÁGINA DE VERSIÓN --- */
       .version-footer {
         margin-top: 14px;
         text-align: center;
@@ -526,7 +525,7 @@
   </head>
   <body>
     <div class="game-wrapper">
-      <!-- Selector de Categorías -->
+      <!-- Selector de Categorías (Activo en todo momento, incluso al terminar un módulo) -->
       <div class="module-selector">
         <button class="mod-btn active" onclick="filterCategory('ALL', this)">
           🌟 Todo (52)
@@ -545,7 +544,6 @@
         </button>
       </div>
 
-      <!-- Barra Superior con Identificador de Versión -->
       <div class="top-bar">
         <div class="badge">⭐ Puntos: <span id="score">0</span></div>
         <div
@@ -553,7 +551,7 @@
           onclick="announceVersion()"
           title="Toca para comprobar versión"
         >
-          🚀 <span id="version-badge-text">v2.10</span>
+          🚀 <span id="version-badge-text">v2.11</span>
         </div>
         <div class="badge">
           📝 <span id="current-q">1</span> / <span id="total-q">52</span>
@@ -643,12 +641,11 @@
         <div class="feedback-msg" id="feedback"></div>
       </div>
 
-      <!-- Pie de página con número de versión -->
       <div class="version-footer">
         <span
           >🤖 English Quest —
           <strong
-            >Versión <span id="version-footer-text">2.10</span></strong
+            >Versión <span id="version-footer-text">2.11</span></strong
           ></span
         >
         <span>•</span>
@@ -658,9 +655,9 @@
 
     <script>
       // =====================================================
-      // CONTROL DE VERSIÓN (Cambia este número cuando actualices)
+      // CONTROL DE VERSIÓN (v2.11)
       // =====================================================
-      const APP_VERSION = "2.10";
+      const APP_VERSION = "2.11";
 
       document.getElementById("version-badge-text").textContent =
         `v${APP_VERSION}`;
@@ -670,7 +667,7 @@
 
       function announceVersion() {
         robotSpeak(
-          `Estás jugando en la versión ${APP_VERSION} actualizada con Robo-Teacher 3D.`,
+          `Estás jugando en la versión ${APP_VERSION}. ¡Ahora puedes cambiar de tema arriba en cualquier momento!`,
           "es-ES",
           1.05,
         );
@@ -680,7 +677,7 @@
       // BANCO COMPLETO DE 52 PREGUNTAS
       // =====================================================
       const allQuestions = [
-        // --- 1. LOS 7 DÍAS DE LA SEMANA (TODOS) ---
+        // --- 1. LOS 7 DÍAS DE LA SEMANA ---
         {
           mod: "DAYS",
           category: "Days of the Week (1/7)",
@@ -751,7 +748,7 @@
             "Ejemplo: 'Sunday is a family day' (El domingo es día de familia).",
         },
 
-        // --- 2. TODOS LOS NÚMEROS DEL 1 AL 20 ---
+        // --- 2. NÚMEROS DEL 1 AL 20 ---
         {
           mod: "NUMBERS",
           category: "Numbers 1-20",
@@ -940,7 +937,7 @@
           example: "Ejemplo: 'Twenty questions!' (¡Veinte preguntas!).",
         },
 
-        // --- 3. ANIMALES Y SUS CARACTERÍSTICAS (PARTES DEL CUERPO) ---
+        // --- 3. ANIMALES Y PARTES DEL CUERPO ---
         {
           mod: "ANIMALS",
           category: "Animals",
@@ -1074,7 +1071,7 @@
           example: "Ejemplo: 'It has got a long neck' (Tiene un cuello largo).",
         },
 
-        // --- 4. GRAMÁTICA: IT IS / IT HAS GOT / IT CAN / ADJETIVOS ---
+        // --- 4. GRAMÁTICA ---
         {
           mod: "GRAMMAR",
           category: "Grammar: It is / It has got",
@@ -1083,8 +1080,8 @@
             "Para decir 'ES grande' (describir cómo es), ¿qué usamos?: '___ big'",
           answer: "it is",
           chips: ["It is", "It has got", "It can"],
-          hint: "'It is' significa 'Es' o 'Está'. Lo usamos para decir el tamaño (big/small), el color (green) o qué animal es.",
-          example: "Ejemplo: 'It is big and yellow' (Es grande y amarillo).",
+          hint: "'It is' significa 'Es' o 'Está'. Lo usamos para el tamaño, color o qué animal es.",
+          example: "Ejemplo: 'It is big and yellow'.",
         },
         {
           mod: "GRAMMAR",
@@ -1094,9 +1091,8 @@
             "Para decir 'TIENE una cola larga', ¿qué usamos?: '___ a long tail'",
           answer: "it has got",
           chips: ["It is", "It has got", "It can"],
-          hint: "'It has got' significa 'Tiene'. Lo usamos siempre para las partes del cuerpo del animal (patas, cola, alas, dientes).",
-          example:
-            "Ejemplo: 'It has got four legs and a tail' (Tiene cuatro patas y una cola).",
+          hint: "'It has got' significa 'Tiene' (para partes del cuerpo).",
+          example: "Ejemplo: 'It has got four legs and a tail'.",
         },
         {
           mod: "GRAMMAR",
@@ -1106,9 +1102,8 @@
             "La serpiente NO TIENE patas. ¿Cómo completamos?: 'It ___ got legs'",
           answer: "hasn't",
           chips: ["hasn't", "isn't", "can't"],
-          hint: "Para decir que NO tiene algo, usamos 'hasn't' delante de 'got' (It hasn't got).",
-          example:
-            "Ejemplo: 'A snake hasn't got legs' (Una serpiente no tiene patas).",
+          hint: "Para decir que NO tiene algo, usamos 'hasn't' (It hasn't got).",
+          example: "Ejemplo: 'A snake hasn't got legs'.",
         },
         {
           mod: "GRAMMAR",
@@ -1117,8 +1112,8 @@
           question: "Para decir que el loro PUEDE volar, escribimos: '___ fly'",
           answer: "it can",
           chips: ["It is", "It has got", "It can"],
-          hint: "'It can' significa 'Puede' y va seguido de una acción o verbo (fly, swim, run, jump, climb).",
-          example: "Ejemplo: 'It can fly very fast' (Puede volar muy rápido).",
+          hint: "'It can' significa 'Puede' seguido de una acción.",
+          example: "Ejemplo: 'It can fly'.",
         },
         {
           mod: "GRAMMAR",
@@ -1127,21 +1122,19 @@
           question: "Un pingüino NO PUEDE volar. Completa: 'A penguin ___ fly'",
           answer: "can't",
           chips: ["can", "can't", "hasn't"],
-          hint: "Para decir que NO PUEDE hacer una acción, usamos CAN'T (con apóstrofe y T).",
-          example:
-            "Ejemplo: 'A penguin can swim, but it can't fly' (Puede nadar, pero no puede volar).",
+          hint: "Para decir que NO PUEDE hacer una acción, usamos CAN'T.",
+          example: "Ejemplo: 'A penguin can't fly'.",
         },
         {
           mod: "GRAMMAR",
           category: "Grammar: It is / It has got",
           emoji: "🐘",
           question:
-            "Completa la frase sobre el elefante: '___ big ears' (Tiene orejas grandes)",
+            "Completa sobre el elefante: '___ big ears' (Tiene orejas grandes)",
           answer: "it has got",
           chips: ["It is", "It has got", "It can"],
-          hint: "Como hablamos de partes del cuerpo que TIENE (orejas grandes), usamos 'It has got'.",
-          example:
-            "Ejemplo: 'It has got big ears and a long trunk' (Tiene orejas grandes y trompa larga).",
+          hint: "Hablamos de partes del cuerpo que TIENE.",
+          example: "Ejemplo: 'It has got big ears'.",
         },
         {
           mod: "GRAMMAR",
@@ -1151,58 +1144,53 @@
             "Completa sobre la rana: '___ small and green' (Es pequeña y verde)",
           answer: "it is",
           chips: ["It is", "It has got", "It can"],
-          hint: "Como decimos cómo ES (pequeña y verde), usamos 'It is'.",
-          example:
-            "Ejemplo: 'It is small and green. It can jump!' (Es pequeña y verde. ¡Puede saltar!).",
+          hint: "Decimos cómo ES (pequeña y verde).",
+          example: "Ejemplo: 'It is small'.",
         },
         {
           mod: "GRAMMAR",
           category: "Actions & Verbs",
           emoji: "🦘",
-          question:
-            "El canguro puede SALTAR. ¿Cómo se escribe 'saltar' en inglés?",
+          question: "El canguro puede SALTAR. ¿Cómo se escribe 'saltar'?",
           answer: "jump",
           hint: "Empieza con J-U y termina en M-P.",
-          example: "Ejemplo: 'A kangaroo can jump' (Un canguro puede saltar).",
+          example: "Ejemplo: 'A kangaroo can jump'.",
         },
         {
           mod: "GRAMMAR",
           category: "Actions & Verbs",
           emoji: "🏊",
-          question: "El pez puede NADAR. ¿Cómo se escribe 'nadar' en inglés?",
+          question: "El pez puede NADAR. ¿Cómo se escribe 'nadar'?",
           answer: "swim",
           hint: "Empieza con S-W y termina en I-M.",
-          example: "Ejemplo: 'A fish can swim' (Un pez puede nadar).",
+          example: "Ejemplo: 'A fish can swim'.",
         },
         {
           mod: "GRAMMAR",
           category: "Actions & Verbs",
           emoji: "🧗",
-          question:
-            "El mono puede TREPAR a los árboles. ¿Cómo se escribe 'trepar'?",
+          question: "El mono puede TREPAR. ¿Cómo se escribe 'trepar'?",
           answer: "climb",
-          hint: "¡Cuidado! Termina en una letra B muda que no se pronuncia: C-L-I-M-B.",
-          example:
-            "Ejemplo: 'A monkey can climb trees' (Un mono puede trepar árboles).",
+          hint: "Termina en B muda: C-L-I-M-B.",
+          example: "Ejemplo: 'A monkey can climb'.",
         },
         {
           mod: "GRAMMAR",
           category: "Feelings (Units 1-5)",
           emoji: "🍕😋",
-          question: "¿Cómo se escribe HAMBRIENTO (tener hambre) en inglés?",
+          question: "¿Cómo se escribe HAMBRIENTO en inglés?",
           answer: "hungry",
           hint: "Empieza con H-U-N-G-R-Y.",
-          example: "Ejemplo: 'I am hungry!' (¡Tengo hambre!).",
+          example: "Ejemplo: 'I am hungry'.",
         },
         {
           mod: "GRAMMAR",
           category: "Feelings (Units 1-5)",
           emoji: "💧🥵",
-          question: "¿Cómo se escribe SEDIENTO (tener sed) en inglés?",
+          question: "¿Cómo se escribe SEDIENTO en inglés?",
           answer: "thirsty",
           hint: "Empieza con T-H-I-R-S-T-Y.",
-          example:
-            "Ejemplo: 'I am thirsty, water please!' (¡Tengo sed, agua por favor!).",
+          example: "Ejemplo: 'I am thirsty'.",
         },
       ];
 
@@ -1210,6 +1198,7 @@
       let currentIndex = 0;
       let score = 0;
       let revealedLetters = 0;
+      let currentModuleKey = "ALL";
       const robot = document.getElementById("robo-teacher");
       const inputField = document.getElementById("user-input");
 
@@ -1217,18 +1206,59 @@
         if (e.key === "Enter") checkAnswer();
       });
 
+      // =====================================================
+      // RESTAURAR LA TARJETA DE PREGUNTA SI ESTABA EN VICTORIA
+      // =====================================================
+      function ensureQuizBoxHTML() {
+        const quizBox = document.getElementById("quiz-box");
+        // Si la tarjeta muestra la pantalla de victoria, la reconstruimos con los controles normales
+        if (!document.getElementById("user-input")) {
+          quizBox.innerHTML = `
+                    <span class="category-tag" id="q-category">Categoría</span>
+                    <div class="emoji-visual" id="q-emoji">📅</div>
+                    <h2 class="question-text" id="q-text">Pregunta</h2>
+
+                    <div class="quick-chips" id="quick-chips"></div>
+
+                    <div class="audio-controls">
+                        <button class="btn-tool btn-listen" onclick="speakEnglishWord(0.9)">🇬🇧 Escuchar Inglés</button>
+                        <button class="btn-tool btn-slow" onclick="speakEnglishWord(0.45)">🐢 Modo Tortuga</button>
+                        <button class="btn-tool btn-help" onclick="toggleHelp()">💡 ¡Explicación y Pista!</button>
+                    </div>
+
+                    <div class="input-group">
+                        <input type="text" id="user-input" class="answer-input" placeholder="Escribe tu respuesta aquí..." autocomplete="off" spellcheck="false">
+                        <div class="btn-row">
+                            <button class="btn-submit" onclick="checkAnswer()">✅ Comprobar</button>
+                            <button class="btn-skip" onclick="skipQuestion()">⏭️ Saltar</button>
+                        </div>
+                    </div>
+
+                    <div class="feedback-msg" id="feedback"></div>
+                `;
+          // Volver a enlazar el evento Enter del input recién creado
+          document
+            .getElementById("user-input")
+            .addEventListener("keypress", function (e) {
+              if (e.key === "Enter") checkAnswer();
+            });
+        }
+      }
+
       function filterCategory(modName, btnElement) {
         document
           .querySelectorAll(".mod-btn")
           .forEach((b) => b.classList.remove("active"));
         btnElement.classList.add("active");
 
+        currentModuleKey = modName;
         if (modName === "ALL") {
           activeQuestions = [...allQuestions];
         } else {
           activeQuestions = allQuestions.filter((q) => q.mod === modName);
         }
         currentIndex = 0;
+        ensureQuizBoxHTML();
         loadQuestion();
       }
 
@@ -1249,19 +1279,30 @@
       }
 
       function speakEnglishWord(speedRate) {
+        if (
+          activeQuestions.length === 0 ||
+          currentIndex >= activeQuestions.length
+        )
+          return;
         const word = activeQuestions[currentIndex].answer;
         robotSpeak(word, "en-GB", speedRate);
       }
 
       function robotSalute() {
         robotSpeak(
-          `¡Hola! Soy Robo-Teacher versión ${APP_VERSION}. Puedes elegir arriba qué tema quieres practicar o pedirme pistas con el botón amarillo.`,
+          `¡Hola! Versión ${APP_VERSION}. Recuerda que puedes pulsar cualquier botón superior para cambiar de tema cuando quieras.`,
           "es-ES",
           1.05,
         );
       }
 
       function loadQuestion() {
+        ensureQuizBoxHTML();
+        if (currentIndex >= activeQuestions.length) {
+          showVictory();
+          return;
+        }
+
         const q = activeQuestions[currentIndex];
         revealedLetters = 0;
 
@@ -1271,8 +1312,12 @@
         document.getElementById("q-emoji").textContent = q.emoji;
         document.getElementById("q-text").textContent = q.question;
         document.getElementById("feedback").textContent = "";
-        inputField.value = "";
-        inputField.focus();
+
+        const freshInput = document.getElementById("user-input");
+        if (freshInput) {
+          freshInput.value = "";
+          freshInput.focus();
+        }
 
         const chipsContainer = document.getElementById("quick-chips");
         chipsContainer.innerHTML = "";
@@ -1282,8 +1327,11 @@
             btn.className = "chip-btn";
             btn.textContent = chipText;
             btn.onclick = () => {
-              inputField.value = chipText;
-              inputField.focus();
+              const inp = document.getElementById("user-input");
+              if (inp) {
+                inp.value = chipText;
+                inp.focus();
+              }
             };
             chipsContainer.appendChild(btn);
           });
@@ -1320,8 +1368,11 @@
         if (revealedLetters < targetWord.length) {
           revealedLetters++;
           const partial = targetWord.substring(0, revealedLetters);
-          inputField.value = partial;
-          inputField.focus();
+          const inp = document.getElementById("user-input");
+          if (inp) {
+            inp.value = partial;
+            inp.focus();
+          }
           robotSpeak(`Pista: ${partial}`, "es-ES", 0.95);
         }
       }
@@ -1332,6 +1383,8 @@
       }
 
       function checkAnswer() {
+        const inputField = document.getElementById("user-input");
+        if (!inputField) return;
         const userText = inputField.value.trim().toLowerCase();
         const correctText = activeQuestions[currentIndex].answer.toLowerCase();
         const feedback = document.getElementById("feedback");
@@ -1349,11 +1402,7 @@
 
           setTimeout(() => {
             currentIndex++;
-            if (currentIndex < activeQuestions.length) {
-              loadQuestion();
-            } else {
-              showVictory();
-            }
+            loadQuestion();
           }, 1500);
         } else {
           feedback.style.color = "#f87171";
@@ -1376,11 +1425,11 @@
         document.getElementById("quiz-box").innerHTML = `
                 <div class="emoji-visual">🏆🎉</div>
                 <h2 class="question-text">¡Módulo Completado!</h2>
-                <p style="margin-bottom: 20px; font-size: 1.1rem;">Has conseguido <strong>${score} puntos</strong>. ¡Puedes elegir otro módulo arriba o volver a empezar!</p>
-                <button class="btn-submit" onclick="location.reload()">🔄 Volver a Empezar</button>
+                <p style="margin-bottom: 20px; font-size: 1.1rem;">Has conseguido <strong>${score} puntos</strong> en esta sección. ¡Selecciona otro tema arriba arriba para continuar!</p>
+                <button class="mod-btn active" style="font-size: 1rem; padding: 10px 20px;" onclick="filterCategory(currentModuleKey, document.querySelector('.mod-btn.active'))">🔄 Repetir este módulo</button>
             `;
         robotSpeak(
-          "¡Felicidades! Has completado todas las preguntas de esta sección.",
+          "¡Felicidades! Has completado todas las preguntas de este tema. Elige otro arriba cuando quieras.",
           "es-ES",
           1.0,
         );
